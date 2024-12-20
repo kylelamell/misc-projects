@@ -47,15 +47,14 @@ function getNextID(tasks) {
 
   let currID = 1;
   for (const task of taskCopy) {
-    if (task.id !== currID) {
-      return currID;
+    if (task.id == currID) {
+      ++currID;
     }
     else {
-      currID++;
+      break;
     }
-    return currID;
   }
-
+  return currID;
 }
 
 function listTasks(tasks) {
@@ -64,17 +63,17 @@ function listTasks(tasks) {
     console.log(task.description);
     console.log(task.completed);
     console.log(task.inProgress);
-    console.log("\n");
+    console.log("");
   }
 }
 
 const args = process.argv.slice(2);
 
-if (argv[0] == "add") {
-  if (argv[1]) {
+if (args[0] === "add") {
+  const description = args.slice(1).join(" ");
+  if (description) {
     const tasks = readTasks();
 
-    const description = argv[1];
     const id = getNextID(tasks);
 
     const task = {
@@ -88,20 +87,23 @@ if (argv[0] == "add") {
 
     writeTasks(tasks);
   }
+  else {
+    console.log("no description given...");
+  }
 }
-else if (argv[0] == "delete") {
-  // delete the task
+else if (args[0] === "delete") {
+  // delete task
 }
-else if (argv[0] == "update") {
+else if (args[0] === "update") {
   // update task description
 }
-else if (argv[0] == "mark-in-progress") {
+else if (args[0] === "mark-in-progress") {
   // mark taks in progress
 }
-else if (argv[0] == "mark-done") {
+else if (args[0] === "mark-done") {
   // mark  task done
 }
-else if (argv[0] == "list") {
+else if (args[0] === "list") {
   const tasks = readTasks();
   listTasks(tasks);
 };
