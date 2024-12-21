@@ -19,7 +19,7 @@ function getNextID(expenses) {
     }
   }
   return currID;
-}
+};
 
 // helper funciton for delete
 // refactors the list so that all id's are incremental by 1
@@ -30,7 +30,7 @@ function refactorExpensesID(expenses, id) {
     }
   }
   return expenses;
-}
+};
 
 // helper funciton to read in json file
 function readExpenses() {
@@ -121,6 +121,7 @@ program
     for (const expense of expenses) {
       console.log(`# ${expense.id.toString().padEnd(maxLengths.id)}  ${expense.date.padEnd(maxLengths.date)}  ${expense.description.padEnd(maxLengths.description)}  ${expense.amount.toString().padEnd(maxLengths.amount)}`);
     }
-  })
+  });
+;
 
 program.parse(process.argv);
