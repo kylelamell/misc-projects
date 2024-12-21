@@ -3,6 +3,8 @@ import { existsSync, readFileSync, writeFileSync } from "fs";
 
 const expensesFilePath = "./expenses.json";
 
+// helper function for add
+// gets the last id, or an id to fill in a hole if something goes awry
 function getNextID(expenses) {
   const expensesCopy = expenses.map((expense) => expense);
   expensesCopy.sort((a, b) => a.id - b.id);
@@ -19,6 +21,8 @@ function getNextID(expenses) {
   return currID;
 }
 
+// helper funciton for delete
+// refactors the list so that all id's are incremental by 1
 function refactorExpensesID(expenses, id) {
   for (const expense of expenses) {
     if (expense.id > id) {
@@ -27,6 +31,8 @@ function refactorExpensesID(expenses, id) {
   }
   return expenses;
 }
+
+// helper funciton to read in json file
 function readExpenses() {
   if (existsSync(expensesFilePath)) {
     const data = readFileSync(expensesFilePath, "utf8");
@@ -35,10 +41,13 @@ function readExpenses() {
   return []
 };
 
+// helper funciton to wrtie to json file
 function writeExpenses(expenses) {
   writeFileSync(expensesFilePath, JSON.stringify(expenses, null, 2), "utf-8");
 };
 
+// helper function for list
+// pads the list so that it is formatted with a minimum amount of spaces
 function calculateTableSize(expenses) {
   const maxLengths = {
     id: 3,
@@ -56,6 +65,9 @@ function calculateTableSize(expenses) {
   return maxLengths;
 };
 
+// add command
+// takes in --description <value>
+//          --amount      <value>
 program
   .command("add")
   .option("-d, --description <item>", "description of item")
@@ -79,6 +91,8 @@ program
   });
 ;
 
+// delete command
+// takes in --id <value>
 program
   .command("delete")
   .option("-i, --id <item>", "id of the item")
@@ -95,6 +109,7 @@ program
   });
 ;
 
+// list command
 program
   .command("list")
   .action(() => {
