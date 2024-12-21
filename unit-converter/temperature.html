@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link href="index.css" rel="stylesheet">
+</head>
+<body>
+  <div class="master-container">
+    <div class="form-container">
+
+      <form  action="/post" method="post" onsubmit="convert(event)" class="form">
+        <div class="form-element">
+          <input class="form-input" type="text" name="magnitude" placeholder="Enter the length to convert">
+        </div>
+        
+        <div class="form-element">
+          <input class="form-input" type="text" name="convertFrom" placeholder="Unit to convert from">
+        </div>
+  
+        <div class="form-element">
+          <input class="form-input" type="text" name="convertTo" placeholder="Unit to convert to">
+        </div>
+  
+        <div class="form-element">
+          <input class="form-button"  type="submit">
+        </div>
+  
+      </form>
+
+      <script>
+        function convert(event) {
+          event.preventDefault();
+          const magnitude = event.target.magnitude.value;
+          const convertFrom = event.target.convertFrom.value;
+          const convertTo = event.target.convertTo.value;
+
+          const resultContainer = document.getElementsByClassName("result-container");
+          const result = document.createElement("div");
+          result.textContent = `magnitude: ${magnitude}, convert from: ${convertFrom}, convert to: ${convertTo}`;
+
+          resultContainer[0].appendChild(result);
+        }
+      </script>
+    </div>
+  
+    <div class="result-container"></div>
+  </div>
+</body>
+</html>
