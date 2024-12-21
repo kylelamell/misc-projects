@@ -1,12 +1,12 @@
-const fs = require("fs");
-const path = require("path");
+import { existsSync, readFileSync, writeFileSync } from "fs";
+import { join } from "path";
 
-const tasksFilePath = path.join(__dirname, "tasks.json");
+const tasksFilePath = join(__dirname, "tasks.json");
 
 function readTasks() {
   // if the json file exists then return the data in an array
-  if (fs.existsSync(tasksFilePath)) {
-    const data = fs.readFileSync(tasksFilePath, "utf8");
+  if (existsSync(tasksFilePath)) {
+    const data = readFileSync(tasksFilePath, "utf8");
     return JSON.parse(data);
   }
   // else return empty array
@@ -14,7 +14,7 @@ function readTasks() {
 };
 
 function writeTasks(tasks) {
-  fs.writeFileSync(tasksFilePath, JSON.stringify(tasks, null, 2), "utf-8");
+  writeFileSync(tasksFilePath, JSON.stringify(tasks, null, 2), "utf-8");
 };
 
 function addTask(description) {
