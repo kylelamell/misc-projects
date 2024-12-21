@@ -57,12 +57,21 @@ function getNextID(tasks) {
   return currID;
 }
 
+function refactorTasksID(tasks, id) {
+  for (const task of tasks) {
+    if (task.id > id) {
+      --task.id;
+    }
+  }
+  return tasks;
+}
+
 function listTasks(tasks) {
   for (const task of tasks) {
-    console.log(task.id);
-    console.log(task.description);
-    console.log(task.completed);
-    console.log(task.inProgress);
+    console.log("task id: " + task.id);
+    console.log("task description: " + task.description);
+    console.log("completed: " + task.completed);
+    console.log("in progress: " + task.inProgress);
     console.log("");
   }
 }
@@ -92,7 +101,21 @@ if (args[0] === "add") {
   }
 }
 else if (args[0] === "delete") {
-  // delete task
+  const id = args[1];
+  if (id) {
+    const tasks = readTasks();
+    let filteredTasks;
+    for (const task of tasks) {
+      if (task.id == id) {
+        filteredTasks = tasks.filter((task) => task.id != id);
+      }
+    }
+    const refactoredTasks = refactorTasksID(filteredTasks, id);
+    writeTasks(refactoredTasks);
+  }
+  else {
+    console.log("no task specified");
+  }
 }
 else if (args[0] === "update") {
   // update task description
