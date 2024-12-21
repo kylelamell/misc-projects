@@ -2,13 +2,19 @@
   {
     "id": 1,
     "date": "12/21/2024",
-    "description": "create the expense tracker program",
-    "amount": true
+    "description": "a lot of apples",
+    "amount": 100
   },
   {
     "id": 2,
     "date": "12/21/2024",
-    "description": "create the json file to store expenses",
-    "amount": true
-  }  
+    "description": "bags to hold the apples",
+    "amount": 50
+  },
+  {
+    "id": 3,
+    "date": "12/21/2024",
+    "description": "even more apples",
+    "amount": "200"
+  }
 ]
