@@ -1,6 +1,6 @@
-export async function fetchActivity(username) {
+export default async function fetchActivity(username) {
   const response = await fetch (
-    `https://api.github.com/users/${username}/events`,
+    `https://api.github.com/users/${username}/events/public`,
     {
       headers: {
         "User-Agent": "node.js",
@@ -8,7 +8,7 @@ export async function fetchActivity(username) {
     },
   );
 
-  if (!response.status === 200) {
+  if (response.status !== 200) {
     if (response.status === 404) {
       throw new Error("user not found");
     }
