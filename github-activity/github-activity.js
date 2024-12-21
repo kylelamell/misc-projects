@@ -1,13 +1,28 @@
 import { Octokit } from "@octokit/core";
 import { config } from "./config.js";
 
+function compileData(object) {
+  if (object.type === "PushEvent") {
+    return `There were ${object.commits} commits to ${object.repo}`;
+  }
+  else if (object.type === "CreateEvent") {
+    return `There were ${object.count} changes to ${object.repo}`;
+  }
+  else if (object.type === "WatchEvent") {
+    return `There is ${object.count} people watching ${object.repo}`;
+  }
+  else {
+    return "unkown event type: " + Object.values(object).toString();
+  }
+}
+
 // get command line inputs
 const args = process.argv.slice(2);
 const username = args[0];
 if (username) {
   // display the username
   console.log("github username given: " + username);
-  console.log("\n");
+  console.log("");
 
   // stup octokit to interface with the github api
   const octokit = new Octokit ({
@@ -15,7 +30,7 @@ if (username) {
   });
 
   // await the response from the api
-  const response = await octokit.request("GET /users/{username}/events", {
+  const response = await octokit.request("GET /users/{username}/events/public", {
     username: username,
     headers : {
       "X-GitHub-Api-Version": "2022-11-28"
@@ -30,7 +45,8 @@ if (username) {
   for (const d of data) {
     dataAgg.push({
       type: d.type,
-      repo: d.repo.name
+      repo: d.repo.name,
+      commits: d.payload.distinct_size,
     })
   }
 
@@ -40,6 +56,7 @@ if (username) {
     const key = `${curr.type}-${curr.name}`;
     if (acc[key]) {
       // if found: increase that count
+      acc[key].commits += curr.commits;
       acc[key].count++;
     } else {
       // if not found: spread that object into the new object and initialize a count field to be 1
@@ -49,8 +66,11 @@ if (username) {
   }, {});
   
   // turn into array we can manip, this gets rid of the key constisting of the type and name
-  const result = Object.values(uniqueCounts);
+  const uniqueData = Object.values(uniqueCounts);
   
   // return results
-  console.log(result);
+  for (const d of uniqueData) {
+    console.log(compileData(d));
+    console.log("");
+  }
 }
