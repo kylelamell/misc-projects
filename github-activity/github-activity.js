@@ -36,16 +36,19 @@ if (username) {
 
   // store unique data and their counts
   const uniqueCounts = dataAgg.reduce((acc, curr) => {
+    // define a key we cna search for
     const key = `${curr.type}-${curr.name}`;
     if (acc[key]) {
+      // if found: increase that count
       acc[key].count++;
     } else {
+      // if not found: spread that object into the new object and initialize a count field to be 1
       acc[key] = { ...curr, count: 1 };
     }
     return acc;
   }, {});
   
-  // turn into array we can manip
+  // turn into array we can manip, this gets rid of the key constisting of the type and name
   const result = Object.values(uniqueCounts);
   
   // return results
