@@ -1,5 +1,5 @@
 import { Octokit } from "@octokit/core";
-import { config } from "./config.js";
+import { config } from "./api/config.js";
 
 function compileData(object) {
   if (object.type === "PushEvent") {
