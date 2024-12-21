@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link href="index.css" rel="stylesheet">
+</head>
+<body>
+  <script src="./unit-converter.js"></script>
+
+  <div class="master-container">
+    <div class="form-container">
+      <form enctype="multipart/form-data" action="unit-converter.js" class="form">
+        <div class="form-element">
+          <input class="form-input" type="text" name="magnitude" placeholder="Enter the length to convert">
+        </div>
+        
+        <div class="form-element">
+          <input class="form-input" type="text" name="convert-from" placeholder="Unit to convert from">
+        </div>
+  
+        <div class="form-element">
+          <input class="form-input" type="text" name="convert-to" placeholder="Unit to convert to">
+        </div>
+  
+        <div class="form-element">
+          <input class="form-button"  type="submit">
+        </div>
+  
+      </form>
+    </div>
+  
+    <div class="result-container"></div>
+  </div>
+</body>
+</html>
