@@ -14,13 +14,13 @@
   {
     "id": 3,
     "description": "test the get next index functionality again",
-    "completed": false,
+    "completed": true,
     "inProgress": false
   },
   {
     "id": 4,
-    "description": "test adding and deleting",
-    "completed": false,
+    "description": "test updating tasks",
+    "completed": true,
     "inProgress": false
   }
 ]

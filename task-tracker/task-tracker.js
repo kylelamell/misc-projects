@@ -17,28 +17,77 @@ function writeTasks(tasks) {
   fs.writeFileSync(tasksFilePath, JSON.stringify(tasks, null, 2), "utf-8");
 };
 
-function addTask(task, tasks) {
-  return 0;
+function addTask(description) {
+  const tasks = readTasks();
+
+  const id = getNextID(tasks);
+
+  const task = {
+    id: id,
+    description: description,
+    completed: false,
+    inProgress: false
+  }
+
+  tasks.push(task);
+
+  writeTasks(tasks);
 }
 
-function deleteTask(task, tasks) {
-  return 0;
+function deleteTask(id) {
+  const tasks = readTasks();
+
+  let filteredTasks;
+  for (const task of tasks) {
+    if (task.id == id) {
+      filteredTasks = tasks.filter((task) => task.id != id);
+    }
+  }
+
+  writeTasks(refactorTasksID(filteredTasks, id));
 }
 
-function updateTask(task, description) {
-  return 0;
+function updateTask(id, description) {
+  const tasks = readTasks();
+
+  for (const task of tasks) {
+    if (task.id == id) {
+      task.description = description;
+    }
+  }
+
+  writeTasks(tasks);
 }
 
-function markComplete(task) {
-  return 0;
+function markComplete(id) {
+  const tasks = readTasks();
+  const task = tasks.find((task) => task.id == id);
+
+  if(task) {
+    task.completed = true;
+    if (task.inProgress) {
+      task.inProgress = false;
+    }
+    writeTasks(tasks);
+  }
+  else {
+    console.log("task specified not found...")
+  }
 }
 
-function markInPorgress(task) {
-  return 0;
-}
+function markInPorgress(id) {
+  const tasks = readTasks();
+  const task = tasks.find((task) => task.id == id);
 
-function markTasks() {
-  return 0;
+  if (task) {
+    task.inProgress = true;
+    writeTasks(tasks);
+  }
+  else {
+    console.log("task specified not found...")
+  }
+
+  writeTasks(tasks);
 }
 
 function getNextID(tasks) {
@@ -76,57 +125,65 @@ function listTasks(tasks) {
   }
 }
 
-const args = process.argv.slice(2);
 
+// the main function
+const args = process.argv.slice(2);
 if (args[0] === "add") {
   const description = args.slice(1).join(" ");
   if (description) {
-    const tasks = readTasks();
-
-    const id = getNextID(tasks);
-
-    const task = {
-      id: id,
-      description: description,
-      completed: false,
-      inProgress: false
-    }
-
-    tasks.push(task);
-
-    writeTasks(tasks);
+    addTask(description);
   }
   else {
-    console.log("no description given...");
+    console.log("no task given");
   }
 }
 else if (args[0] === "delete") {
   const id = args[1];
   if (id) {
-    const tasks = readTasks();
-    let filteredTasks;
-    for (const task of tasks) {
-      if (task.id == id) {
-        filteredTasks = tasks.filter((task) => task.id != id);
-      }
-    }
-    const refactoredTasks = refactorTasksID(filteredTasks, id);
-    writeTasks(refactoredTasks);
+    deleteTask(id);
   }
   else {
-    console.log("no task specified");
+    console.log("no task specified...");
   }
 }
 else if (args[0] === "update") {
-  // update task description
+  const id = args[1];
+  const description = args[2];
+  
+  if (id && description) {
+    updateTask(id, description);
+  }
+  else {
+    console.log("not enough information specified...");
+  }
 }
 else if (args[0] === "mark-in-progress") {
-  // mark taks in progress
+  const id = args[1];
+
+  if (id) {
+    markInPorgress(id);
+  }
+  else {
+    console.log("no task specified...");
+  }
 }
 else if (args[0] === "mark-done") {
-  // mark  task done
+  const id = args[1];
+
+  if (id) {
+    markComplete(id);
+  }
+  else {
+    console.log("no task specified...");
+  }
 }
 else if (args[0] === "list") {
   const tasks = readTasks();
-  listTasks(tasks);
+
+  if (tasks.length > 0) {
+    listTasks(tasks);
+  }
+  else {
+    console.log("no tasks in your list")
+  }
 };
