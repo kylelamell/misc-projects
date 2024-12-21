@@ -49,10 +49,11 @@ program
     const { description, amount } = options;
     const expenses = readExpenses();
     const id = getNextID(expenses);
+    const date = new Date().toLocaleDateString();
 
     const expense = {
       id: id,
-      date: "getdate",
+      date: date,
       description: description,
       amount: amount
     }
@@ -60,8 +61,6 @@ program
     expense.push(expense);
 
     writeExpenses(expenses);
-
-    console.log(`${description} costs ${amount}`);
   });
 ;
 

@@ -1,13 +1,13 @@
 [
   {
     "id": 1,
-    "date": "2024-12-21",
+    "date": "12/21/2024",
     "description": "create the expense tracker program",
     "amount": true
   },
   {
     "id": 2,
-    "date": "2024-12-21",
+    "date": "12/21/2024",
     "description": "create the json file to store expenses",
     "amount": true
   }  
