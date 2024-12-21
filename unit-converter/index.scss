@@ -1,0 +1,13 @@
+body {
+  height: 500px;
+}
+
+.main-container {
+  height: 300px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
