@@ -1,6 +1,6 @@
 body {
   height: 500px;
-
+  background-color: whitesmoke;
   font-family: system-ui;
 }
 
@@ -45,7 +45,6 @@ body {
   flex-direction: column;
   justify-content: space-between;
 }
-
 
 .form-element {
   display: flex;
