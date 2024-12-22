@@ -7,20 +7,109 @@
   <link href="index.css" rel="stylesheet">
 </head>
 <body>
+  <div>distance converter</div>
   <div class="master-container">
     <div class="form-container">
 
       <form  action="/post" method="post" onsubmit="convert(event)" class="form">
         <div class="form-element">
-          <input class="form-input" type="text" name="magnitude" placeholder="Enter the length to convert">
+          <input class="form-input" type="text" name="magnitude" placeholder="Magnitude of length">
         </div>
-        
-        <div class="form-element">
-          <input class="form-input" type="text" name="convertFrom" placeholder="Unit to convert from">
-        </div>
+
+        <p>Unit to convert from</p>
+        <div class="form-element-radio">
+          
+          <div class="unit-system" id="metric">
+            <div class="radio-btn">
+              <input class="form-input-radio" type="radio" name="convertFrom" id="millimeter" value="millimeter">
+              <label for="millimeter">millimeter</label>
+            </div>
   
-        <div class="form-element">
-          <input class="form-input" type="text" name="convertTo" placeholder="Unit to convert to">
+            <div class="radio-btn">
+              <input class="form-input-radio" type="radio" name="convertFrom" id="centimeter" value="centimeter">
+              <label for="centimeter">centimeter</label>
+            </div>
+  
+            <div class="radio-btn">
+              <input class="form-input-radio" type="radio" name="convertFrom" id="meter" value="meter">
+              <label for="meter">meter</label>
+            </div>
+  
+            <div class="radio-btn">
+              <input class="form-input-radio" type="radio" name="convertFrom" id="kilometer" value="kilometer">
+              <label for="kilometer">kilometer</label>
+            </div>
+          </div>
+
+          <div class="unit-system" id="imperial">
+            <div class="radio-btn">
+              <input class="form-input-radio" type="radio" name="convertFrom" id="inch" value="inch">
+              <label for="inch">inch</label>
+            </div>
+  
+            <div class="radio-btn">
+              <input class="form-input-radio" type="radio" name="convertFrom" id="foot" value="foot">
+              <label for="foot">foot</label>
+            </div>
+  
+            <div class="radio-btn">
+              <input class="form-input-radio" type="radio" name="convertFrom" id="yard" value="yard">
+              <label for="yard">yard</label>
+            </div>
+  
+            <div class="radio-btn">
+              <input class="form-input-radio" type="radio" name="convertFrom" id="mile" value="mile">
+              <label for="mile">mile</label>
+            </div>
+          </div>
+        </div>
+
+        <p>Unit to convert to</p>
+        <div class="form-element-radio">
+          
+          <div class="unit-system" id="metric">
+            <div class="radio-btn">
+              <input class="form-input-radio" type="radio" name="convertFrom" id="millimeter" value="millimeter">
+              <label for="millimeter">millimeter</label>
+            </div>
+  
+            <div class="radio-btn">
+              <input class="form-input-radio" type="radio" name="convertFrom" id="centimeter" value="centimeter">
+              <label for="centimeter">centimeter</label>
+            </div>
+  
+            <div class="radio-btn">
+              <input class="form-input-radio" type="radio" name="convertFrom" id="meter" value="meter">
+              <label for="meter">meter</label>
+            </div>
+  
+            <div class="radio-btn">
+              <input class="form-input-radio" type="radio" name="convertFrom" id="kilometer" value="kilometer">
+              <label for="kilometer">kilometer</label>
+            </div>
+          </div>
+
+          <div class="unit-system" id="imperial">
+            <div class="radio-btn">
+              <input class="form-input-radio" type="radio" name="convertFrom" id="inch" value="inch">
+              <label for="inch">inch</label>
+            </div>
+  
+            <div class="radio-btn">
+              <input class="form-input-radio" type="radio" name="convertFrom" id="foot" value="foot">
+              <label for="foot">foot</label>
+            </div>
+  
+            <div class="radio-btn">
+              <input class="form-input-radio" type="radio" name="convertFrom" id="yard" value="yard">
+              <label for="yard">yard</label>
+            </div>
+  
+            <div class="radio-btn">
+              <input class="form-input-radio" type="radio" name="convertFrom" id="mile" value="mile">
+              <label for="mile">mile</label>
+            </div>
+          </div>
         </div>
   
         <div class="form-element">
@@ -47,5 +136,12 @@
   
     <div class="result-container"></div>
   </div>
+
+  <nav class="nav-menu">
+    <div><a href="distance.html">distance converter</a></div>
+    <div><a href="weight.html">weight converter</a></div>
+    <div><a href="temperature.html">temperature</a></div>
+  </nav>
+  
 </body>
 </html>

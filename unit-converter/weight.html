@@ -7,20 +7,77 @@
   <link href="index.css" rel="stylesheet">
 </head>
 <body>
+  <div>weight converter</div>
   <div class="master-container">
     <div class="form-container">
 
       <form  action="/post" method="post" onsubmit="convert(event)" class="form">
         <div class="form-element">
-          <input class="form-input" type="text" name="magnitude" placeholder="Enter the length to convert">
+          <input class="form-input" type="text" name="magnitude" placeholder="Magnitude of weight">
         </div>
         
-        <div class="form-element">
-          <input class="form-input" type="radio" name="convertFrom" placeholder="Unit to convert from">
+        <p>Unit to convert from</p>
+        <div class="form-element-radio">
+          <div class="unit-system" id="metric">
+            <div class="radio-btn">
+              <input class="form-input-radio" type="radio" name="convertFrom" id="milligram" value="milligram">
+              <label for="milligram">milligram</label>
+            </div>
+  
+            <div class="radio-btn">
+              <input class="form-input-radio" type="radio" name="convertFrom" id="gram" value="gram">
+              <label for="gram">gram</label>
+            </div>
+  
+            <div class="radio-btn">
+              <input class="form-input-radio" type="radio" name="convertFrom" id="kilogram" value="kilogram">
+              <label for="kilogram">kilogram</label>
+            </div>
+          </div>
+
+          <div class="unit-system" id="imperial">
+            <div class="radio-btn">
+              <input class="form-input-radio" type="radio" name="convertFrom" id="ounce" value="ounce">
+              <label for="ounce">ounce</label>
+            </div>
+            
+            <div class="radio-btn">
+              <input class="form-input-radio" type="radio" name="convertFrom" id="pound" value="pound">
+              <label for="pound">pound</label>
+            </div>
+          </div>
         </div>
   
-        <div class="form-element">
-          <input class="form-input" type="text" name="convertTo" placeholder="Unit to convert to">
+        <p>Unit to convert to</p>
+        <div class="form-element-radio">
+          <div class="unit-system" id="metric">
+            <div class="radio-btn">
+              <input class="form-input-radio" type="radio" name="convertFrom" id="milligram" value="milligram">
+              <label for="milligram">milligram</label>
+            </div>
+  
+            <div class="radio-btn">
+              <input class="form-input-radio" type="radio" name="convertFrom" id="gram" value="gram">
+              <label for="gram">gram</label>
+            </div>
+  
+            <div class="radio-btn">
+              <input class="form-input-radio" type="radio" name="convertFrom" id="kilogram" value="kilogram">
+              <label for="kilogram">kilogram</label>
+            </div>
+          </div>
+
+          <div class="unit-system" id="imperial">
+            <div class="radio-btn">
+              <input class="form-input-radio" type="radio" name="convertFrom" id="ounce" value="ounce">
+              <label for="ounce">ounce</label>
+            </div>
+            
+            <div class="radio-btn">
+              <input class="form-input-radio" type="radio" name="convertFrom" id="pound" value="pound">
+              <label for="pound">pound</label>
+            </div>
+          </div>
         </div>
   
         <div class="form-element">
@@ -47,5 +104,10 @@
   
     <div class="result-container"></div>
   </div>
+  <nav class="nav-menu">
+    <div><a href="distance.html">distance converter</a></div>
+    <div><a href="weight.html">weight converter</a></div>
+    <div><a href="temperature.html">temperature</a></div>
+  </nav>
 </body>
 </html>
