@@ -40,17 +40,17 @@
         <div class="form-element-radio">
           <div class="unit-system" id="misc">
             <div class="radio-btn">
-              <input class="form-input-radio" type="radio" name="convertFrom" id="celsius" value="celsius">
+              <input class="form-input-radio" type="radio" name="convertTo" id="celsius" value="celsius">
               <label for="celsius">celsius</label>
             </div>
             
             <div class="radio-btn">
-              <input class="form-input-radio" type="radio" name="convertFrom" id="fahrenheit" value="fahrenheit">
+              <input class="form-input-radio" type="radio" name="convertTo" id="fahrenheit" value="fahrenheit">
               <label for="fahrenheit">fahrenheit</label>
             </div>
             
             <div class="radio-btn">
-              <input class="form-input-radio" type="radio" name="convertFrom" id="kelvin" value="kelvin">
+              <input class="form-input-radio" type="radio" name="convertTo" id="kelvin" value="kelvin">
               <label for="kelvin">kelvin</label>
             </div>
           </div>
@@ -70,6 +70,12 @@
           const convertTo = event.target.convertTo.value;
 
           const resultContainer = document.getElementsByClassName("result-container");
+          let child = resultContainer[0].lastElementChild;
+          while (child) {
+            resultContainer[0].removeChild(child);
+            child = resultContainer[0].lastElementChild;
+          }
+
           const result = document.createElement("div");
           result.textContent = `magnitude: ${magnitude}, convert from: ${convertFrom}, convert to: ${convertTo}`;
 

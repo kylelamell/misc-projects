@@ -69,44 +69,44 @@
           
           <div class="unit-system" id="metric">
             <div class="radio-btn">
-              <input class="form-input-radio" type="radio" name="convertFrom" id="millimeter" value="millimeter">
+              <input class="form-input-radio" type="radio" name="convertTo" id="millimeter" value="millimeter">
               <label for="millimeter">millimeter</label>
             </div>
   
             <div class="radio-btn">
-              <input class="form-input-radio" type="radio" name="convertFrom" id="centimeter" value="centimeter">
+              <input class="form-input-radio" type="radio" name="convertTo" id="centimeter" value="centimeter">
               <label for="centimeter">centimeter</label>
             </div>
   
             <div class="radio-btn">
-              <input class="form-input-radio" type="radio" name="convertFrom" id="meter" value="meter">
+              <input class="form-input-radio" type="radio" name="convertTo" id="meter" value="meter">
               <label for="meter">meter</label>
             </div>
   
             <div class="radio-btn">
-              <input class="form-input-radio" type="radio" name="convertFrom" id="kilometer" value="kilometer">
+              <input class="form-input-radio" type="radio" name="convertTo" id="kilometer" value="kilometer">
               <label for="kilometer">kilometer</label>
             </div>
           </div>
 
           <div class="unit-system" id="imperial">
             <div class="radio-btn">
-              <input class="form-input-radio" type="radio" name="convertFrom" id="inch" value="inch">
+              <input class="form-input-radio" type="radio" name="convertTo" id="inch" value="inch">
               <label for="inch">inch</label>
             </div>
   
             <div class="radio-btn">
-              <input class="form-input-radio" type="radio" name="convertFrom" id="foot" value="foot">
+              <input class="form-input-radio" type="radio" name="convertTo" id="foot" value="foot">
               <label for="foot">foot</label>
             </div>
   
             <div class="radio-btn">
-              <input class="form-input-radio" type="radio" name="convertFrom" id="yard" value="yard">
+              <input class="form-input-radio" type="radio" name="convertTo" id="yard" value="yard">
               <label for="yard">yard</label>
             </div>
   
             <div class="radio-btn">
-              <input class="form-input-radio" type="radio" name="convertFrom" id="mile" value="mile">
+              <input class="form-input-radio" type="radio" name="convertTo" id="mile" value="mile">
               <label for="mile">mile</label>
             </div>
           </div>
@@ -126,6 +126,12 @@
           const convertTo = event.target.convertTo.value;
 
           const resultContainer = document.getElementsByClassName("result-container");
+          let child = resultContainer[0].lastElementChild;
+          while (child) {
+            resultContainer[0].removeChild(child);
+            child = resultContainer[0].lastElementChild;
+          }
+
           const result = document.createElement("div");
           result.textContent = `magnitude: ${magnitude}, convert from: ${convertFrom}, convert to: ${convertTo}`;
 
