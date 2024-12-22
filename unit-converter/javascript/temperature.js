@@ -1,3 +1,4 @@
+// get the magnitude, convertForm, and convertTo values from the form
 function getValues(event) {
   const magnitude = event.target.magnitude.value;
   const convertFrom = event.target.convertFrom.value;
@@ -12,6 +13,7 @@ function getValues(event) {
   return object;
 }
 
+// print the result to the page
 function printConversion(conversion) {
   const resultContainer = document.getElementsByClassName("result-container");
   let child = resultContainer[0].lastElementChild;
@@ -26,6 +28,7 @@ function printConversion(conversion) {
   resultContainer[0].appendChild(result);
 }
 
+// convert from kelvin to whatever we want
 function convert(kelvin, convertTo) {
   let result;
   switch(convertTo) {
@@ -44,6 +47,7 @@ function convert(kelvin, convertTo) {
   return result;
 }
 
+// this is the main function, called from the html form
 function convertTemperature(event) {
   event.preventDefault();
   const values = getValues(event);
@@ -51,6 +55,7 @@ function convertTemperature(event) {
   const conversion = `magnitude: ${values.magnitude}, convert from: ${values.convertFrom}, convert to: ${values.convertTo}`;
   console.log(conversion);
 
+  // convert to kelvin by default to prevent 9 base cases 
   let kelvin;
   let result;
   switch(values.convertFrom) {

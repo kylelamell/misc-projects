@@ -1,3 +1,4 @@
+// get the magnitude, convertFrom, and convertTo vlaues from the form
 function getValues(event) {
   const magnitude = event.target.magnitude.value;
   const convertFrom = event.target.convertFrom.value;
@@ -12,6 +13,7 @@ function getValues(event) {
   return object;
 }
 
+// print the result to the html page
 function printConversion(conversion) {
   const resultContainer = document.getElementsByClassName("result-container");
   let child = resultContainer[0].lastElementChild;
@@ -26,6 +28,7 @@ function printConversion(conversion) {
   resultContainer[0].appendChild(result);
 }
 
+// convert form milligrams to whatever we want
 function convert(numMilligrams, convertTo) {
   let result;
   switch(convertTo) {
@@ -51,6 +54,7 @@ function convert(numMilligrams, convertTo) {
   return result;
 }
 
+// this is the main function, called from the html form
 function convertWeight(event) {
   event.preventDefault();
   const values = getValues(event);
@@ -58,6 +62,7 @@ function convertWeight(event) {
   const conversion = `magnitude: ${values.magnitude}, convert from: ${values.convertFrom}, convert to: ${values.convertTo}`;
   console.log(conversion);
 
+  // convert our magnitude to milligrams to prevent 25 base cases
   let numMilligrams;
   let result;
   switch(values.convertFrom) {
@@ -89,6 +94,5 @@ function convertWeight(event) {
   console.log(result);
 
   printConversion(result);
-
 }
 

@@ -1,3 +1,4 @@
+// get the magnitude, convertFrom, and convertTo values from the form
 function getValues(event) {
   const magnitude = event.target.magnitude.value;
   const convertFrom = event.target.convertFrom.value;
@@ -12,6 +13,7 @@ function getValues(event) {
   return object;
 }
 
+// print the result to the html page
 function printConversion(conversion) {
   const resultContainer = document.getElementsByClassName("result-container");
   let child = resultContainer[0].lastElementChild;
@@ -26,6 +28,7 @@ function printConversion(conversion) {
   resultContainer[0].appendChild(result);
 }
 
+// convert from millimeters to whaterver we want
 function convert(numMillimeters, convertTo) {
   let result;
   switch(convertTo) {
@@ -59,6 +62,7 @@ function convert(numMillimeters, convertTo) {
   return result;
 }
 
+// this is out main function, called from the html form
 function convertDistance(event) {
   event.preventDefault();
   const values = getValues(event);
@@ -66,7 +70,7 @@ function convertDistance(event) {
   const conversion = `magnitude: ${values.magnitude}, convert from: ${values.convertFrom}, convert to: ${values.convertTo}`;
   console.log(conversion);
 
-  // by default convert whatever it is the mm first that way I can skip covering 56 base cases
+  // convert to millimeters by default to prevent 64 base cases
   let numMillimeters;
   let result;
   switch(values.convertFrom) {
