@@ -1,9 +1,12 @@
+body {
+  font-family: system-ui;
+}
+
 .blog-posts-container {
   display: flex;
   flex-direction: column;
   
   border: solid;
-  font-family: system-ui;
 }
 
 .blog-post-element {
@@ -30,4 +33,27 @@ a {
 
 .login-form-container {
   display: none;
+}
+
+.post-container {
+  border: solid;
+  display: flex;
+  flex-direction: column;
+  padding: 35px;
+
+  gap: 10px;
+
+  border-radius: 10px;
+}
+
+.post-name {
+  margin: 0;
+}
+
+.post-date {
+  color: #b7b7b7;
+}
+
+.post-content {
+  margin: 0;
 }

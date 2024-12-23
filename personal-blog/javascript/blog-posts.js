@@ -1,36 +1,15 @@
-async function readPosts(filePath) {
-  return new Promise((resolve, reject) => {
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', filePath);
-    xhr.onload = () => {
-      if (xhr.status === 200) {
-        try {
-          const data = JSON.parse(xhr.responseText);
-          resolve(data);
-        } catch (error) {
-          reject(new Error(`Error parsing JSON: ${error.message}`));
-        }
-      } else {
-        reject(new Error(`HTTP error! status: ${xhr.status}`));
-      }
-    };
-    xhr.onerror = () => {
-      reject(new Error('Network request failed'));
-    };
-    xhr.send();
-  });
-}
+import { readPosts } from "./read-posts.js";
 
 async function addPosts() {
   try {
-    const data = await readPosts('../posts.json');
-    for (const post of data) {
+    const posts = await readPosts('../posts.json');
+    for (const post of posts) {
       console.log(post);
     }
     
     const blogContainer = document.getElementById("blog-posts-container");
 
-    for (const post of data) {
+    for (const post of posts) {
       const blogPostElement = document.createElement("div");
       blogPostElement.id = post.id;
       blogPostElement.className = "blog-post-element";
@@ -39,7 +18,7 @@ async function addPosts() {
       blogPostLinkContainer.className = "blog-post-link-container";
 
       const blogPostLink = document.createElement("a");
-      blogPostLink.href = `./post.html/${post.id}`;
+      blogPostLink.href = `./post.html?post=${post.id}`;
       blogPostLink.textContent = `${post.name}`;
       blogPostLinkContainer.appendChild(blogPostLink);
 
