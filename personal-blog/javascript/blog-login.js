@@ -21,11 +21,13 @@ form.addEventListener("submit", (event) => {
 document.addEventListener("formSubmitted", (event) => {
   console.log("Form data:", event.detail.formData);
 
-  // Do something with the form data in your module
-  for (const value of event.detail.formData.values()) {
-    console.log(value);
-  }
+  const email = event.detail.formData.get("email");
+  const password = event.detail.formData.get("password")
 
+  console.log("email: ", email);
+  console.log("password: ", password);
+
+  
   
 
 });
