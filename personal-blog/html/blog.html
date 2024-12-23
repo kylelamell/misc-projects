@@ -4,8 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="../css/blog.css">
   </head>
   <body>
-    
+    <div class="header">
+      <h1>This is the landing page for the blog</h1>
+    </div>
+
+    <div class="form-container">
+      <form id="sign-in-form" class="sign-in-form">
+        <div class="form-element">
+          <input class="form-input" type="text" name="email" id="email" placeholder="Email" required>
+        </div>
+
+        <div class="form-element">
+          <input class="form-input" type="password" name="password" id="password" placeholder="Password" required>
+        </div>
+
+        <div class="form-element">
+          <input class="form-button" type="submit">
+        </div>
+      </form>
+    </div>
+
+    <div class="login-result"></div>
+
   </body>
+  <script type="module" src="../javascript/blog-login.js"></script>
 </html>
