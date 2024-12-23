@@ -1,3 +1,6 @@
+const adminUsername = "kyle";
+const adminPassword = "password";
+
 // get the login form from the html page
 const form = document.getElementById("sign-in-form");
 
@@ -19,9 +22,20 @@ form.addEventListener("submit", (event) => {
 
 // In your JavaScript module
 document.addEventListener("formSubmitted", (event) => {
-  const email = event.detail.formData.get("email");
+  const username = event.detail.formData.get("username");
   const password = event.detail.formData.get("password")
 
-  console.log("email: ", email);
+  console.log("username: ", username);
   console.log("password: ", password);
+
+  if (username === adminUsername && password === adminPassword) {
+    console.log("successful login");
+    window.location = "./blog-admin.html";
+  }
+  else {
+    console.log("cannot login");
+  };
+
+
+
 });

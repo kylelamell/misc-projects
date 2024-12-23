@@ -24,4 +24,5 @@ document.addEventListener("formSubmitted", (event) => {
 
   console.log("post name: ", email);
   console.log("post content: ", password);
+  
 });
