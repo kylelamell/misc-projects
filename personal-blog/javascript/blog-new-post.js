@@ -1,5 +1,5 @@
 // get the login form from the html page
-const form = document.getElementById("sign-in-form");
+const form = document.getElementById("new-post-form");
 
 //create an event lsitener for the submit button
 form.addEventListener("submit", (event) => {
@@ -19,9 +19,9 @@ form.addEventListener("submit", (event) => {
 
 // In your JavaScript module
 document.addEventListener("formSubmitted", (event) => {
-  const email = event.detail.formData.get("email");
-  const password = event.detail.formData.get("password")
+  const email = event.detail.formData.get("name");
+  const password = event.detail.formData.get("content")
 
-  console.log("email: ", email);
-  console.log("password: ", password);
+  console.log("post name: ", email);
+  console.log("post content: ", password);
 });
