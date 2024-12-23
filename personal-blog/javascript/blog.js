@@ -1,6 +1,6 @@
 import { readPosts } from "./common.js";
 
-async function addPosts() {
+async function getPosts() {
   try {
     const posts = await readPosts('../posts.json');
     for (const post of posts) {
@@ -36,4 +36,4 @@ async function addPosts() {
   }
 }
 
-addPosts();
+getPosts();

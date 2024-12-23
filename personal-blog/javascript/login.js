@@ -25,9 +25,6 @@ document.addEventListener("formSubmitted", (event) => {
   const username = event.detail.formData.get("username");
   const password = event.detail.formData.get("password")
 
-  console.log("username: ", username);
-  console.log("password: ", password);
-
   if (username === adminUsername && password === adminPassword) {
     console.log("successful login");
     window.location = "./blog-admin.html";
@@ -35,7 +32,4 @@ document.addEventListener("formSubmitted", (event) => {
   else {
     console.log("cannot login");
   };
-
-
-
 });

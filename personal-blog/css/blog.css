@@ -32,7 +32,7 @@ a {
 }
 
 .login-form-container {
-  display: none;
+  display: flex;
 }
 
 .post-container {

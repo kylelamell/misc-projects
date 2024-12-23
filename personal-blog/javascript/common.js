@@ -21,12 +21,44 @@ export async function readPosts(filePath) {
   });
 };
 
-export function writePosts(posts, filePath) {
-  const jsonString = JSON.stringify(array, null, 2);
-  const blob = new Blob([jsonString], { type: 'application/json' });
+export function writePosts(posts) {
+  const xhr = new XMLHttpRequest();
+  xhr.open("POST", "../blog-admin.php", true);
+  xhr.setRequestHeader("Content-Type", "application/json");
 
-  const link = document.createElement('a');
-  link.href = URL.createObjectURL(blob);
-  link.download = filePath;
-  link.click();
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState === 4 && xhr.status === 200) {
+      // Handle the response from the PHP script (if any)
+      const response = JSON.parse(xhr.responseText); 
+      console.log(response); 
+      // Do something with the response, e.g., display a message to the user
+    } else if (xhr.readyState === 4 && xhr.status !== 200) {
+      console.error("Error calling PHP script:", xhr.status, xhr.statusText);
+      // Handle the error, e.g., display an error message to the user
+    }
+  };
+
+  xhr.send(JSON.stringify(posts));
 };
+
+export function getNextId(posts) {
+  let currId = 0;
+  for (const post of posts) {
+    if (post.id == currId) {
+      ++currId;
+    }
+    else {
+      break;
+    }
+  }
+  return currId;
+};
+
+export function refactorPostId(posts, id) {
+  for (const post of posts) {
+    if (post.id > id) {
+      --post.id;
+    }
+  }
+  return posts;
+}
