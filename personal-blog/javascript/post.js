@@ -1,4 +1,4 @@
-import { readPosts } from "./posts.js";
+import { readPosts } from "./common.js";
 
 const urlParams = new URLSearchParams(window.location.search);
 const postId = urlParams.get("post");

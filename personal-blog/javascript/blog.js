@@ -1,4 +1,4 @@
-import { readPosts } from "./posts.js";
+import { readPosts } from "./common.js";
 
 async function addPosts() {
   try {
