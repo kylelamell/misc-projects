@@ -19,4 +19,14 @@ export async function readPosts(filePath) {
     };
     xhr.send();
   });
-}
+};
+
+export function writePosts(posts, filePath) {
+  const jsonString = JSON.stringify(array, null, 2);
+  const blob = new Blob([jsonString], { type: 'application/json' });
+
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = filePath;
+  link.click();
+};
