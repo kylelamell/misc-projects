@@ -1,0 +1,33 @@
+.blog-posts-container {
+  display: flex;
+  flex-direction: column;
+  
+  border: solid;
+  font-family: system-ui;
+}
+
+.blog-post-element {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  justify-content: space-between;
+
+  gap: 50px;
+  padding-left: 35px;
+  padding-right: 35px;
+}
+
+.blog-post-link-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+}
+
+a {
+  text-decoration: none;
+}
+
+.login-form-container {
+  display: none;
+}

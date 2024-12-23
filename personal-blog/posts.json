@@ -3,6 +3,12 @@
     "id": 0,
     "date": "12/23/2024",
     "name": "test",
-    "content": "my test post"
+    "content": "my first test post"
+  },
+  {
+    "id": 1,
+    "date": "12/23/2024",
+    "name": "test2",
+    "content": "my second test post"
   }
 ]
