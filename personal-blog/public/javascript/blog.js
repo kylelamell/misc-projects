@@ -2,7 +2,7 @@ import { readPosts } from "./common.js";
 
 async function getPosts() {
   try {
-    const posts = await readPosts('../posts.json');
+    const posts = await readPosts();
     for (const post of posts) {
       console.log(post);
     }
