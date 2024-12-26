@@ -7,10 +7,6 @@ export async function readPosts() {
   return (await response.json());
 };
 
-export function writePosts(posts) {
-  console.log(`writePosts was called for: ${posts}`);
-};
-
 export function getNextId(posts) {
   let currId = 0;
   for (const post of posts) {

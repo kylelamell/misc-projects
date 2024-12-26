@@ -1,5 +1,4 @@
-import { readPosts, writePosts } from "./common.js";
-
+import { readPosts } from "./common.js";
 
 async function displayEditPosts(){
   try {
@@ -34,7 +33,6 @@ async function displayEditPosts(){
       editPostsContainer.appendChild(postContainer);
     }
     
-
   }
   catch (err) {
     console.log(err);
