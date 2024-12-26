@@ -42,8 +42,16 @@ app.post('/login', (req, res) => {
   }
 });
 
-app.get('/blog-admin', (req, res) => {
+app.get("/blog-admin", (req, res) => {
   res.sendFile(__dirname + "/public/html/blog-admin.html");
+});
+
+app.get("/post.html", (req, res) => {
+  res.sendFile(__dirname + "/public/html/post.html");
+});
+
+app.get("/blog.html", (req, res) => {
+  res.sendFile(__dirname + "/public/html/blog.html");
 });
 
 app.listen(port, () => {
