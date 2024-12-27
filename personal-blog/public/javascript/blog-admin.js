@@ -20,19 +20,27 @@ async function displayEditPosts(){
       editButton.value = "Edit";
       editButton.formAction = "/editPost";
 
+      const editValue = document.createElement("input");
+      editValue.type = "text";
+      editValue.id = "id";
+      editValue.name = "id";
+      editValue.value = post.id;
+      editValue.className = "edit-post-value";
+
       const deleteButton = document.createElement("input");
       deleteButton.type = "submit";
       deleteButton.value = "Delete";
       deleteButton.formAction = "/deletePost";
 
       editForm.appendChild(editButton);
+      editForm.appendChild(editValue);
+
       editForm.appendChild(deleteButton);
 
       postContainer.appendChild(editForm);
 
       editPostsContainer.appendChild(postContainer);
     }
-    
   }
   catch (err) {
     console.log(err);

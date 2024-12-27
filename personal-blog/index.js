@@ -57,6 +57,20 @@ app.post("/newPost", (req, res) => {
   res.sendFile(__dirname + "/public/html/blog-admin.html");
 });
 
+app.post("/editPost", (req, res) => {
+  const  { id } = req.body;
+  console.log(id);
+
+  res.sendFile(__dirname + "/public/html/blog-admin.html");
+});
+
+app.post("/deletePost", (req, res) => {
+  const { id } = req.body;
+  console.log(id);
+
+  res.sendFile(__dirname + "/public/html/blog-admin.html");
+});
+
 app.get("/blog-admin", (req, res) => {
   res.sendFile(__dirname + "/public/html/blog-admin.html");
 });
