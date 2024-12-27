@@ -8,12 +8,11 @@ import { getNextId } from './public/javascript/common.js';
 const adminUsername = "kyle";
 const adminPassword = "password";
 
-
 //----------------- APP SETUP---------------------------
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const app = express();
-const port = 3000; // You can choose any available port
+const port = 3000;
 app.use(express.static("public", { 
   extensions: ["css", "js", "html"] 
 })); 
@@ -30,9 +29,6 @@ app.get("/api/posts", (req, res) => {
   res.json(posts);
 });
 
-
-
-// Route for the form submission
 app.post("/login", (req, res) => {
   const { username, password } = req.body;
 
@@ -40,7 +36,6 @@ app.post("/login", (req, res) => {
     res.redirect("/blog-admin");
   }
   else {
-    // Stay on the same page (blog.html) and display an error message (example)
     res.send(`<p>you are not me. quit it!.</p><a href="/">Try again</a>`); 
   }
 });
