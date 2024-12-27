@@ -6,3 +6,4 @@ package.json
 # API keys
 config.js
 firebaseConfig.js
+.env
