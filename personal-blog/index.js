@@ -8,7 +8,7 @@ import { getNextId, refactorPostId } from './public/javascript/common.js';
 const adminUsername = "kyle";
 const adminPassword = "password";
 
-//----------------- APP SETUP---------------------------
+//---------------------- APP SETUP ----------------------
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const app = express();
@@ -17,18 +17,16 @@ app.use(express.static("public", {
   extensions: ["css", "js", "html"] 
 })); 
 app.use(urlencoded({ extended: true }));
-//------------------------------------------------------
+//-------------------------------------------------------
 
-// the blog homepage
-app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/public/html/blog.html");
-});
 
+// read posts api
 app.get("/api/posts", (req, res) => {
   const posts = JSON.parse(readFileSync("./posts.json", "utf-8"));
   res.json(posts);
 });
 
+// login page
 app.post("/login", (req, res) => {
   const { username, password } = req.body;
 
@@ -40,6 +38,7 @@ app.post("/login", (req, res) => {
   }
 });
 
+// blog admin page new post form handler
 app.post("/newPost", (req, res) => {
   const { name, content } = req.body;
 
@@ -57,16 +56,16 @@ app.post("/newPost", (req, res) => {
   res.redirect("/blog-admin");
 });
 
+// blog admin page edit post form handler
 app.post("/editPost", (req, res) => {
   const  { id } = req.body;
-  console.log(id);
 
   res.redirect("/blog-admin");
 });
 
+// blog admin page delete post form handler
 app.post("/deletePost", (req, res) => {
   const { id } = req.body;
-  console.log(id);
 
   let posts = JSON.parse(readFileSync("./posts.json", "utf-8"));
   posts = posts.filter((post) => post.id != id);
@@ -78,16 +77,24 @@ app.post("/deletePost", (req, res) => {
   res.redirect("/blog-admin");
 });
 
+// the blog homepage (default page)
+app.get("/", (req, res) => {
+  res.sendFile(__dirname + "/public/html/blog.html");
+});
+
+// to redirect to the homepage
+app.get("/blog.html", (req, res) => {
+  res.sendFile(__dirname + "/public/html/blog.html");
+});
+
+// the blog admin page
 app.get("/blog-admin", (req, res) => {
   res.sendFile(__dirname + "/public/html/blog-admin.html");
 });
 
+// individual blog post page
 app.get("/post.html", (req, res) => {
   res.sendFile(__dirname + "/public/html/post.html");
-});
-
-app.get("/blog.html", (req, res) => {
-  res.sendFile(__dirname + "/public/html/blog.html");
 });
 
 app.listen(port, () => {
