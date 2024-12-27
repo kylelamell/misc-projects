@@ -66,9 +66,7 @@ app.post("/editPost", (req, res) => {
 
 app.post("/editPostComplete", (req, res) => {
   const { id, name, content } = req.body;
-
-  console.log({id: id, name: name, content: content});
-
+  
   const posts = JSON.parse(readFileSync("./posts.json", "utf-8"));
 
   for (const post of posts) {
