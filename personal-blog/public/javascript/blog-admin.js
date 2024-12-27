@@ -10,6 +10,7 @@ async function displayEditPosts(){
     for (const post of posts) {
       const postContainer = document.createElement("div");
       postContainer.className = "post-container";
+      postContainer.id = `post-${post.id}`;
 
       const postNameContainer = document.createElement("div");
       postNameContainer.className = "post-name-container";
@@ -25,7 +26,7 @@ async function displayEditPosts(){
       const editButton = document.createElement("input");
       editButton.type = "submit";
       editButton.value = "Edit";
-      editButton.formAction = "/editPost";
+      editButton.formAction = "/editPost"
 
       const editValue = document.createElement("input");
       editValue.type = "text";
@@ -61,4 +62,4 @@ async function displayEditPosts(){
   }
 }
 
-displayEditPosts();
+displayEditPosts()

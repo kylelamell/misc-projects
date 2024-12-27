@@ -70,3 +70,29 @@ textarea {
   flex-direction: row;
   align-items: center;
 }
+
+.edit-form-container {
+  display: flex;
+  flex-direction: column;
+  border: solid;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.edit-form-input {
+  width: 99%;
+}
+
+.edit-form-input-hidden {
+  display: none;
+}
+
+a {
+  text-decoration: none;
+}

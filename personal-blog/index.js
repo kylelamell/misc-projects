@@ -61,8 +61,27 @@ app.post("/newPost", (req, res) => {
 app.post("/editPost", (req, res) => {
   const  { id } = req.body;
 
-  res.redirect("/blog-admin");
+  res.redirect(`/edit-post.html?id=${id}`);
 });
+
+app.post("/editPostComplete", (req, res) => {
+  const { id, name, content } = req.body;
+
+  console.log({id: id, name: name, content: content});
+
+  const posts = JSON.parse(readFileSync("./posts.json", "utf-8"));
+
+  for (const post of posts) {
+    if (post.id == id) {
+      post.name = name;
+      post.content = content;
+    }
+  }
+
+  writeFileSync("./posts.json", JSON.stringify(posts, null, 2), "utf-8");
+
+  res.redirect("/blog-admin");
+})
 
 // blog admin page delete post form handler
 app.post("/deletePost", (req, res) => {
@@ -83,7 +102,7 @@ app.get("/", (req, res) => {
   res.sendFile(__dirname + "/public/html/blog.html");
 });
 
-// to redirect to the homepage
+// to redirect to the blog homepage
 app.get("/blog.html", (req, res) => {
   res.sendFile(__dirname + "/public/html/blog.html");
 });
@@ -93,9 +112,18 @@ app.get("/blog-admin", (req, res) => {
   res.sendFile(__dirname + "/public/html/blog-admin.html");
 });
 
+// to redirect to the blog admin page
+app.get("/blog-admin.html", (req, res) => {
+  res.sendFile(__dirname + "/public/html/blog-admin.html");
+});
+
 // individual blog post page
 app.get("/post.html", (req, res) => {
   res.sendFile(__dirname + "/public/html/post.html");
+});
+
+app.get("/edit-post.html", (req, res) => {
+  res.sendFile(__dirname + "/public/html/edit-post.html");
 });
 
 app.listen(port, () => {
