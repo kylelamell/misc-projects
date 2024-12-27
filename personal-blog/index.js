@@ -21,6 +21,7 @@ app.use(urlencoded({ extended: true }));
 
 
 // read posts api
+// should always be accessed from a script calling readPosts() in ./public/javascript/common.js
 app.get("/api/posts", (req, res) => {
   const posts = JSON.parse(readFileSync("./posts.json", "utf-8"));
   res.json(posts);

@@ -1,5 +1,6 @@
 import { readPosts } from "./common.js";
 
+// get the encoded id from the url
 const urlParams = new URLSearchParams(window.location.search);
 const postId = urlParams.get("post");
 

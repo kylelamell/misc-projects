@@ -1,8 +1,9 @@
 import { readPosts } from "./common.js";
 
 async function displayEditPosts(){
+  // get the posts and make the containers for editing them
   try {
-    const posts = await readPosts("../posts.json");
+    const posts = await readPosts();
 
     const editPostsContainer = document.getElementById("edit-post-container");
 
@@ -58,7 +59,6 @@ async function displayEditPosts(){
   catch (err) {
     console.log(err);
   }
-  
 }
 
 displayEditPosts();
