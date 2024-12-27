@@ -16,5 +16,11 @@
     "date": "12/23/2024",
     "name": "test3",
     "content": "test3 content"
+  },
+  {
+    "id": 3,
+    "date": "12/27/2024",
+    "name": "testing edit with new posts",
+    "content": "something hopefully works"
   }
 ]

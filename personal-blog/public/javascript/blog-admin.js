@@ -8,9 +8,15 @@ async function displayEditPosts(){
 
     for (const post of posts) {
       const postContainer = document.createElement("div");
+      postContainer.className = "post-container";
+
+      const postNameContainer = document.createElement("div");
+      postNameContainer.className = "post-name-container";
+
+      const postName = document.createElement("p");
+      postName.innerHTML = post.name;
 
       const editForm = document.createElement("form");
-
       editForm.id = post.id;
       editForm.className = "post-edit-form";
       editForm.method = "post";
@@ -32,12 +38,19 @@ async function displayEditPosts(){
       deleteButton.value = "Delete";
       deleteButton.formAction = "/deletePost";
 
-      editForm.appendChild(editButton);
-      editForm.appendChild(editValue);
+      postNameContainer.appendChild(postName);
 
+      editForm.appendChild(editValue);
+      editForm.appendChild(editButton);
       editForm.appendChild(deleteButton);
 
-      postContainer.appendChild(editForm);
+      const formContainer = document.createElement("div");
+      formContainer.className = "form-container";
+
+      formContainer.appendChild(editForm);
+
+      postContainer.appendChild(postNameContainer);
+      postContainer.appendChild(formContainer);
 
       editPostsContainer.appendChild(postContainer);
     }

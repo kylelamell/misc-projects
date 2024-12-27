@@ -2,6 +2,12 @@ body {
   font-family: system-ui;
 }
 
+.post-admin-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
 .new-post-container {
   border-style: solid;
   border-radius: 10px;
@@ -24,6 +30,8 @@ body {
   width: 100%;
   border-radius: 2px;
   border-style: solid;
+  padding: 0;
+  margin: 0;
 }
 
 textarea {
@@ -36,4 +44,29 @@ textarea {
 
 .edit-post-value {
   display: none;
+}
+
+.edit-post-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.post-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  border-style: solid;
+  border-radius: 3px;
+  border-width: 1px;
+
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
