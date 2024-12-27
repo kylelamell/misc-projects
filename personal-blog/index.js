@@ -2,7 +2,7 @@ import express, { urlencoded } from "express";
 import { writeFileSync, readFileSync } from "fs";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
-import { getNextId } from './public/javascript/common.js';
+import { getNextId, refactorPostId } from './public/javascript/common.js';
 
 // replace this with something more firm later
 const adminUsername = "kyle";
@@ -54,21 +54,28 @@ app.post("/newPost", (req, res) => {
 
   writeFileSync("./posts.json", JSON.stringify(posts, null, 2), "utf-8");
 
-  res.sendFile(__dirname + "/public/html/blog-admin.html");
+  res.redirect("/blog-admin");
 });
 
 app.post("/editPost", (req, res) => {
   const  { id } = req.body;
   console.log(id);
 
-  res.sendFile(__dirname + "/public/html/blog-admin.html");
+  res.redirect("/blog-admin");
 });
 
 app.post("/deletePost", (req, res) => {
   const { id } = req.body;
   console.log(id);
 
-  res.sendFile(__dirname + "/public/html/blog-admin.html");
+  let posts = JSON.parse(readFileSync("./posts.json", "utf-8"));
+  posts = posts.filter((post) => post.id != id);
+
+  posts = refactorPostId(posts, id);
+
+  writeFileSync("./posts.json", JSON.stringify(posts, null, 2), "utf-8");
+
+  res.redirect("/blog-admin");
 });
 
 app.get("/blog-admin", (req, res) => {

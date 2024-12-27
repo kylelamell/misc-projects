@@ -27,4 +27,4 @@ export function refactorPostId(posts, id) {
     }
   }
   return posts;
-}
+};
