@@ -7,6 +7,13 @@ import express, { urlencoded } from "express";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 
+// get the api key
+import "./config.js";
+
+// set up the api key
+const apiKey = process.env.TIMELINE_WEATHER_API_KEY;
+console.log(apiKey);
+
 // set up directory name
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -38,7 +45,7 @@ app.post("/api/weatherAPI", (req, res) => {
   }
 
   console.log(code);
-  
+
   res.json({ data: "we made it to the backend and back again!" });
 });
 
