@@ -7,7 +7,20 @@
   <link rel="stylesheet" href="../css/weather.css">
 </head>
 <body>
-  <h1>This is the landing page for the weather api project</h1>
+  <div class="header">
+    <h1>This is the landing page for the weather api project</h1>
+  </div>
+
+  <div class="form-container">
+    <form class="city-code-form" action="/cityCode" method="post">
+      <div class="form-element">
+        <input type="text" name="code" id="code" placeholder="city code">
+      </div>
+      <div class="form-element">
+        <input class="form-button" type="submit">
+      </div>
+    </form>
+  </div>
 </body>
 <script type="module" src="../javascript/weather.js"></script>
 </html>
