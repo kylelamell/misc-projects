@@ -12,7 +12,6 @@ import "./config.js";
 
 // set up the api key
 const apiKey = process.env.TIMELINE_WEATHER_API_KEY;
-console.log(apiKey);
 
 // set up directory name
 const __filename = fileURLToPath(import.meta.url);
