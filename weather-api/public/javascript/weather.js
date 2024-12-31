@@ -3,22 +3,33 @@ const form = document.getElementById("city-code-form");
 form.addEventListener("submit", (event) => {
   event.preventDefault();
 
-  const code = event.target.code.value;
+  const cityCode = event.target.code.value;
 
   const weatherContainer = document.getElementById("weather-container");
   const p = document.createElement("p");
-  p.innerHTML = code;
+  p.innerHTML = cityCode;
 
   weatherContainer.appendChild(p);
 
-  console.log(code);
+  getWeatherData(cityCode);
 });
 
-async function getWeatherData(code) {
+async function getWeatherData(cityCode) {
   try {
+    const res = await fetch("/api/weatherAPI", {
+      method: "post",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({ code: cityCode })
+    });
 
+    if (!res.ok) {
+      console.log("error fetching weather api information")
+    }
+
+    const data = await res.json();
+    console.log(data);
   }
   catch (err) {
-    console.log(err);
+    console.error(err.message);
   }
 }

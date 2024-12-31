@@ -18,6 +18,7 @@ app.use(express.static("public", {
   extensions: ["css", "js", "html"]
 }));
 app.use(urlencoded({ extended: true }));
+app.use(express.json());
 
 // setup the homepage routes
 app.get("/", (req, res) => {
@@ -28,14 +29,19 @@ app.get("/weather.html", (req, res) => {
   res.sendFile(__dirname + "/public/html/weather.html")
 });
 
-// setup the citycode form input
-app.post("/api/cityCode", (req, res) => {
+// setup the weather api fetch
+app.post("/api/weatherAPI", (req, res) => {
   const { code }  = req.body;
 
-  console.log(code);
+  if (!code) {
+    return res.status(400).json({ error: "missing city code in request body" });
+  }
 
-  res.redirect("/weather.html");
+  console.log(code);
+  
+  res.json({ data: "we made it to the backend and back again!" });
 });
+
 
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
