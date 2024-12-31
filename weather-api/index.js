@@ -29,7 +29,7 @@ app.get("/weather.html", (req, res) => {
 });
 
 // setup the citycode form input
-app.post("/cityCode", (req, res) => {
+app.post("/api/cityCode", (req, res) => {
   const { code }  = req.body;
 
   console.log(code);
