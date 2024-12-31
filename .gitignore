@@ -7,3 +7,4 @@ package.json
 config.js
 firebaseConfig.js
 .env
+private/
