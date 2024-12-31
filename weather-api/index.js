@@ -7,10 +7,11 @@ import express, { urlencoded } from "express";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 
-// get the api key
-import "./config.js";
+// need axios to make the http request
+import axios from "axios";
 
-// set up the api key
+// get the api key and set it up
+import "./config.js";
 const apiKey = process.env.TIMELINE_WEATHER_API_KEY;
 
 // set up directory name
@@ -36,18 +37,29 @@ app.get("/weather.html", (req, res) => {
 });
 
 // setup the weather api fetch
-app.post("/api/weatherAPI", (req, res) => {
+app.post("/api/weatherAPI", async (req, res) => {
   const { code }  = req.body;
 
   if (!code) {
     return res.status(400).json({ error: "missing city code in request body" });
   }
 
-  console.log(code);
+  // the code is not used yet
+  if (code === "1500") {
+    return res.json({ data: "good news, the city data is already cached" })
+  }
 
-  res.json({ data: "we made it to the backend and back again!" });
+  // try to fetch some example data
+  try {
+    const URL = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/London,UK?key=${apiKey}`;
+    const APIres = await axios.get(URL);
+    return res.json(APIres.data);
+  }
+  catch (err) {
+    console.error(err.message);
+    return res.status(500).json({ error: "failed to retrieve weather data" });
+  }
 });
-
 
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
