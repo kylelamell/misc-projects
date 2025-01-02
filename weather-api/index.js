@@ -1,7 +1,9 @@
-import express, { urlencoded, rateLimit } from "express";
+import express, { urlencoded } from "express";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 import axios from "axios";
+import { createClient } from "redis";
+import { rateLimit } from "express-rate-limit";
 
 // get the api key and set it up
 import "./config.js";
@@ -18,6 +20,13 @@ const limiter = rateLimit({
   standardHeaders: "draft-8",
   legacyHeaders: false
 });
+
+// setup redis
+const client = createClient();
+
+function checkCache(req, res, next) {
+  const key = req.path;
+}
 
 // ------------ app  setup -------------
 const app = express();
@@ -40,7 +49,7 @@ app.get("/weather.html", (req, res) => {
 });
 
 // setup the weather api fetch
-app.post("/api/weatherAPI", async (req, res) => {
+app.post("/api/weatherAPI", checkCache, async (req, res) => {
   const { code }  = req.body;
 
   if (!code) {
