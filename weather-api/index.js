@@ -1,24 +1,25 @@
-// need express to set up the local host
-// need urlencoded to pass information from webpages to backend
-import express, { urlencoded } from "express";
-
-// need filepathtourl to get the dirname
-// need dirane to turn into path??
+import express, { urlencoded, rateLimit } from "express";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
-
-// need axios to make the http request
 import axios from "axios";
 
 // get the api key and set it up
 import "./config.js";
 const apiKey = process.env.TIMELINE_WEATHER_API_KEY;
 
-// set up directory name
+// setup directory name
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-// app setup
+// setup the rate limiter
+const limiter = rateLimit({
+  window: 15 * 60 * 1000,
+  limit: 100,
+  standardHeaders: "draft-8",
+  legacyHeaders: false
+});
+
+// ------------ app  setup -------------
 const app = express();
 const port = 3000;
 app.use(express.static("public", {
@@ -26,6 +27,8 @@ app.use(express.static("public", {
 }));
 app.use(urlencoded({ extended: true }));
 app.use(express.json());
+app.use(limiter);
+// -------------------------------------
 
 // setup the homepage routes
 app.get("/", (req, res) => {
