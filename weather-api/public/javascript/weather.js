@@ -3,16 +3,16 @@ const form = document.getElementById("city-code-form");
 form.addEventListener("submit", (event) => {
   event.preventDefault();
 
-  const cityCode = event.target.code.value;
-  getWeatherData(cityCode);
+  const city = event.target.city.value;
+  getWeatherData(city);
 });
 
-async function getWeatherData(cityCode) {
+async function getWeatherData(city) {
   try {
     const res = await fetch("/api/weatherAPI", {
       method: "post",
       headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({ code: cityCode })
+      body: JSON.stringify({ city: city })
     });
 
     if (!res.ok) {
@@ -20,6 +20,23 @@ async function getWeatherData(cityCode) {
     }
 
     const data = await res.json();
+    const weatherContainer = document.getElementById("weather-container");
+
+    for (const day of data.days) {
+      const div = document.createElement("div");
+      div.className = "weather-day";
+      div.id = day.datetime;
+      
+      for (const [key, value] of Object.entries(day)) {
+        const p = document.createElement("p");
+        p.innerHTML = `${key}: ${value}`;
+
+        div.appendChild(p);
+      };
+
+      weatherContainer.appendChild(div);
+    }
+
     console.dir(data);
   }
   catch (err) {

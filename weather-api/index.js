@@ -15,9 +15,10 @@ const __dirname = dirname(__filename);
 
 // setup the rate limiter
 const limiter = rateLimit({
-  window: 15 * 60 * 1000,
-  limit: 100,
-  standardHeaders: "draft-8",
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+  message: "error: too many requests",
+  standardHeaders: true,
   legacyHeaders: false
 });
 
@@ -49,21 +50,20 @@ app.get("/weather.html", (req, res) => {
 });
 
 // setup the weather api fetch
-app.post("/api/weatherAPI", checkCache, async (req, res) => {
-  const { code }  = req.body;
+app.post("/api/weatherAPI", async (req, res) => {
+  const { city }  = req.body;
 
-  if (!code) {
+  if (!city) {
     return res.status(400).json({ error: "missing city code in request body" });
   }
 
-  // the code is not used yet
-  if (code === "1500") {
-    return res.json({ data: "good news, the city data is already cached" })
-  }
+  // add some logic for the memory caching here
+  
+  // ------------------------------------------
 
   // try to fetch some example data
   try {
-    const URL = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/London,UK?key=${apiKey}`;
+    const URL = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}?key=${apiKey}`;
     const APIres = await axios.get(URL);
     return res.json(APIres.data);
   }
