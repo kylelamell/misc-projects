@@ -2,18 +2,18 @@ import express, { urlencoded } from "express";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 import axios from "axios";
+import dotenv from "dotenv";
 
-// get the api key and set it up
-import "./config.js";
+dotenv.config();
 
 // setup directory name
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-
 // ------------ app  setup -------------
 const app = express();
-const port = 3000;
+const port = process.env.PORT;
+const api_port = process/env.API_PORT;
 app.use(express.static("public", {
   extensions: ["css", "js", "html"]
 }));
@@ -35,7 +35,7 @@ app.post("/weather", async (req, res) => {
   const city = req.body.city;
 
   try {
-    const response = await axios.get(`http://localhost:3001/?city=${city}`);
+    const response = await axios.get(`http://localhost:${api_port}/?city=${city}`);
     const data = response.data;
 
     res.json(data);
