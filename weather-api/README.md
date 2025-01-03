@@ -1,5 +1,10 @@
-# Weather API - 2
-- thi sis the second attempt at the project, rebasing it
+# Weather API 
+- this is the second attempt at the project, rebasing it
+- it is purely just an api that fetches data from a third party api and caches it for a period
+- to interact with this api refer to weather-app
+
+
+# details
 - this project will utilize an api to fetch weather data
   - visual crossing weather api: https://www.visualcrossing.com/weather-api
 - the app will make use of caching and .env files to store api keys to make it more robust
