@@ -1,4 +1,4 @@
-import client from './client';
+import client from './client.js';
 
 async function main() {
   try {
@@ -7,7 +7,7 @@ async function main() {
     console.log('All Posts:', posts);
 
     // Get a single post by ID
-    const postId = 'your_post_id'; // Replace with the actual ID
+    const postId = '1'; // Replace with the actual ID
     const post = await client.getPostById(postId);
     console.log('Single Post:', post);
 

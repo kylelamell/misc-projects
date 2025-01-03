@@ -1,11 +1,13 @@
 import { Router } from "express";
 import axios from "axios";
 import dotenv from "dotenv";
+import { connect, closeConnection } from "../config/mongoConfig.js";
+import { type } from "os";
 
 dotenv.config();
 
 const database = process.env.MONGO_DATABASE;
-const postCollection = process.env.MONOG_POST_COLLECTION;
+const postCollection = process.env.MONGO_POST_COLLECTION;
 
 const router = Router();
 router.get("/posts", async (req, res) => {
@@ -19,18 +21,18 @@ router.get("/posts", async (req, res) => {
 
   try {
     // we try to retrieve all the posts
-    const db = client.db(database);
-    const posts = client.collection(postCollection);
+    const mongoClient = await connect();
 
-    let result;
-    if (term) {
-      const agg = [{$search: {wildcard: {query: `*${term}*`}}}]
-    }
-    else {
-      result = await postCollection.find({}).toArray();
-    }
+    const db = mongoClient.db(database);
+    const posts = db.collection(postCollection);
 
-    return res.status(200).json({ data: result});
+    const result = await posts.find({}).toArray();
+
+    console.dir(result);
+
+    await closeConnection();
+
+    return res.status(200).json({ data: result });
   }
   catch (error) {
     console.log(error);
@@ -49,12 +51,18 @@ router.get("/posts/:postId", async (req, res) => {
 
   try {
     // we try to retieve the post from mongodb
+    const mongoClient = await connect();
+
     const db = mongoClient.db(database);
-    const posts = mongoClient.collection(postCollection);
+    const posts = db.collection(postCollection);
 
     const query = { id: postId };
 
-    const result = await postCollection.findOne(query);
+    const result = await posts.findOne(query);
+
+    console.dir(result);
+
+    await closeConnection();
 
     return res.status(200).json({ data: result});
   }
