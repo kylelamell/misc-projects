@@ -32,6 +32,7 @@ router.get("/", async (req, res) => {
     }
   }
   catch (err) {
+    console.log(err);
     if (err.isAxiosError) {
       return res.status(500).json({ error: "error while fetching from the api: " + err.message });
     }

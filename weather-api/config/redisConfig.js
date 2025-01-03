@@ -11,9 +11,13 @@ async function createRedisClient() {
       host: process.env.REDIS_HOST,
       port: process.env.REDIS_PORT
     }
-  })
+  });
 
-  redisClient.on("error",(err) => console.error(`error connecting to redis client: ${err}`));
+  redisClient.on("error",(err) => {
+    console.error(`error connecting to redis client: ${err}`);
+    process.exit(1);
+  });
+  
   redisClient.on("connect", () => console.info("connected redis client"));
   await redisClient.connect();
 }

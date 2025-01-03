@@ -9,7 +9,7 @@ form.addEventListener("submit", (event) => {
 
 async function getWeatherData(city) {
   try {
-    const res = await fetch("/api/weatherAPI", {
+    const res = await fetch("/weather", {
       method: "post",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify({ city: city })
@@ -20,24 +20,9 @@ async function getWeatherData(city) {
     }
 
     const data = await res.json();
-    const weatherContainer = document.getElementById("weather-container");
-
-    for (const day of data.days) {
-      const div = document.createElement("div");
-      div.className = "weather-day";
-      div.id = day.datetime;
-      
-      for (const [key, value] of Object.entries(day)) {
-        const p = document.createElement("p");
-        p.innerHTML = `${key}: ${value}`;
-
-        div.appendChild(p);
-      };
-
-      weatherContainer.appendChild(div);
-    }
 
     console.dir(data);
+    
   }
   catch (err) {
     console.error(err.message);
