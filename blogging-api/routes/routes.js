@@ -4,7 +4,7 @@ import { config} from "dotenv";
 import { mongoConnect } from "../config/mongoConfig.js";
 
 config();
-const blogDatabase = process.env.MONGO_DATABASE;
+const blogDatabase = process.env.MONGO_POST_DATABASE;
 const postCollection = process.env.MONGO_POST_COLLECTION;
 const URI = process.env.MONGO_CONNECTION_STRING;
 
@@ -27,7 +27,7 @@ router.get("/posts", async (req, res) => {
 
     const result = await posts.find({}).toArray();
 
-    console.log(await result);
+    console.log(result);
 
     return res.status(200).json({ data: result });
   }
