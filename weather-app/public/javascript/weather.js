@@ -19,10 +19,22 @@ async function getWeatherData(city) {
       console.log("error fetching weather api information");
     }
 
-    const data = await res.json();
+    const response = await res.json();
+    const weatherData = response.data;
 
-    console.dir(data);
+    const weatherContainer = document.getElementById("weather-container");
+
+    const div = document.createElement("div");
     
+    for (const [key, value] of Object.entries(weatherData)) {
+      const p = document.createElement("p");
+      p.innerHTML = `${key}: ${value}`
+      div.appendChild(p);
+    }
+
+    weatherContainer.appendChild(div);
+
+    console.dir(weatherData);
   }
   catch (err) {
     console.error(err.message);

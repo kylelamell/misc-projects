@@ -40,7 +40,7 @@ app.post("/weather", async (req, res) => {
 
     res.json(data);
   }
-  catch {
+  catch (error) {
     console.error("error fetching the weather data", error);
     res.status(500).json({ error: "error fetching weather data" });
   }
