@@ -1,42 +1,42 @@
 import { Router } from "express";
 import axios from "axios";
-import dotenv from "dotenv";
-import { connect, closeConnection } from "../config/mongoConfig.js";
-import { type } from "os";
+import { config} from "dotenv";
+import { mongoConnect } from "../config/mongoConfig.js";
 
-dotenv.config();
-
-const database = process.env.MONGO_DATABASE;
+config();
+const blogDatabase = process.env.MONGO_DATABASE;
 const postCollection = process.env.MONGO_POST_COLLECTION;
+const URI = process.env.MONGO_CONNECTION_STRING;
 
 const router = Router();
 router.get("/posts", async (req, res) => {
   console.log("we made it to GET /posts");
 
-  // term is optional so we can stay here if
+  // term is optional so we can stay here
   const term = req.query.term;
   if (term) {
     console.log(`included search term: ${term}`)
   }
-
+  let mongoClient;
   try {
     // we try to retrieve all the posts
-    const mongoClient = await connect();
+    mongoClient = await mongoConnect(URI);
 
-    const db = mongoClient.db(database);
+    const db = mongoClient.db(blogDatabase);
     const posts = db.collection(postCollection);
 
     const result = await posts.find({}).toArray();
 
-    console.dir(result);
-
-    await closeConnection();
+    console.log(await result);
 
     return res.status(200).json({ data: result });
   }
   catch (error) {
     console.log(error);
-    return res.status(400).json({ error: "there was an errro retriving all posts" });
+    return res.status(400).json({ error: "there was an error retrieving all posts" });
+  }
+  finally {
+    await mongoClient.close();
   }
 });
 
@@ -51,24 +51,13 @@ router.get("/posts/:postId", async (req, res) => {
 
   try {
     // we try to retieve the post from mongodb
-    const mongoClient = await connect();
-
-    const db = mongoClient.db(database);
-    const posts = db.collection(postCollection);
-
-    const query = { id: postId };
-
-    const result = await posts.findOne(query);
-
-    console.dir(result);
-
-    await closeConnection();
-
-    return res.status(200).json({ data: result});
   }
   catch (error) {
     console.log(error);
     return res.status(404).json({ error: "post not found" });
+  }
+  finally {
+    await closeConnection();
   }
 });
 
@@ -86,17 +75,6 @@ router.post("/posts", async (req, res) => {
 
   try {
     // try to create the post
-    const lastEntry = await collection.findOne({}, { sort: { id: -1 } }); 
-    const postObject = {
-      id: lastEntry + 1,
-      title: title,
-      content: content,
-      category: category,
-      tags: tags,
-      createdAt: new Date().toLocaleDateString(),
-      updatedAt: new Date().toLocaleDateString()
-    }
-
     return res.status(201).json({ data: postObject })
   }
   catch (error) {

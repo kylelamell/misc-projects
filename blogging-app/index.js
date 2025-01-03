@@ -7,9 +7,9 @@ async function main() {
     console.log('All Posts:', posts);
 
     // Get a single post by ID
-    const postId = '1'; // Replace with the actual ID
-    const post = await client.getPostById(postId);
-    console.log('Single Post:', post);
+    //const postId = '1'; // Replace with the actual ID
+    //const post = await client.getPostById(postId);
+    //console.log('Single Post:', post);
 
     // ... Add more API calls here ...
 
