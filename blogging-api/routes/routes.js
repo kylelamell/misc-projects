@@ -1,14 +1,13 @@
 import { Router } from "express";
 import axios from "axios";
 import dotenv from "dotenv";
-import { MongoClient, ServerApiVersion } from "mongodb";
 
 dotenv.config();
 
-const URI = process.env.MONGO_CONNECTION_STRING;
+const database = process.env.MONGO_DATABASE;
+const postCollection = process.env.MONOG_POST_COLLECTION;
 
 const router = Router();
-
 router.get("/posts", async (req, res) => {
   console.log("we made it to GET /posts");
 
@@ -18,30 +17,20 @@ router.get("/posts", async (req, res) => {
     console.log(`included search term: ${term}`)
   }
 
-  const testObjects = [
-    {
-      id: 1,
-      title: "title1",
-      content: "content1",
-      category: "category1",
-      tags: ["tag1", "tag2"],
-      createdAt: "2025-01-03T01:20:00Z",
-      updatedAt: "2025-01-03T01:40:00Z"
-    },
-    {
-      id: 2,
-      title: "title1",
-      content: "content1",
-      category: "category1",
-      tags: ["tag1", "tag2"],
-      createdAt: "2025-01-03T02:20:00Z",
-      updatedAt: "2025-01-03T02:40:00Z"
-    }
-  ]
-
   try {
     // we try to retrieve all the posts
-    return res.status(200).json({ data: testObjects});
+    const db = client.db(database);
+    const posts = client.collection(postCollection);
+
+    let result;
+    if (term) {
+      const agg = [{$search: {wildcard: {query: `*${term}*`}}}]
+    }
+    else {
+      result = await postCollection.find({}).toArray();
+    }
+
+    return res.status(200).json({ data: result});
   }
   catch (error) {
     console.log(error);
@@ -58,19 +47,16 @@ router.get("/posts/:postId", async (req, res) => {
     return res.redirect("/posts");
   }
 
-  const testObjects = {
-    id: 1,
-    title: "title1",
-    content: "content1",
-    category: "category1",
-    tags: ["tag1", "tag2"],
-    createdAt: "2025-01-03T01:20:00Z",
-    updatedAt: "2025-01-03T01:40:00Z"
-  }
-
   try {
     // we try to retieve the post from mongodb
-    return res.status(200).json({ data: testObjects});
+    const db = mongoClient.db(database);
+    const posts = mongoClient.collection(postCollection);
+
+    const query = { id: postId };
+
+    const result = await postCollection.findOne(query);
+
+    return res.status(200).json({ data: result});
   }
   catch (error) {
     console.log(error);
@@ -92,14 +78,15 @@ router.post("/posts", async (req, res) => {
 
   try {
     // try to create the post
+    const lastEntry = await collection.findOne({}, { sort: { id: -1 } }); 
     const postObject = {
-      id: "post id",
+      id: lastEntry + 1,
       title: title,
       content: content,
       category: category,
       tags: tags,
-      createdAt: "creation date",
-      updatedAt: "updateded date"
+      createdAt: new Date().toLocaleDateString(),
+      updatedAt: new Date().toLocaleDateString()
     }
 
     return res.status(201).json({ data: postObject })
@@ -137,7 +124,7 @@ router.put("/posts/:postId", async (req, res) => {
       category: category,
       tags: tags,
       createdAt: "creation date",
-      updatedAt: "updateded date"
+      updatedAt: new Date().toLocaleDateString()
     }
     return res.status(200).json({ data: postObject });
   }
