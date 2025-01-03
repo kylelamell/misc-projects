@@ -22,13 +22,6 @@ const limiter = rateLimit({
   legacyHeaders: false
 });
 
-// setup redis
-const client = createClient();
-
-function checkCache(req, res, next) {
-  const key = req.path;
-}
-
 // ------------ app  setup -------------
 const app = express();
 const port = 3000;
@@ -57,20 +50,99 @@ app.post("/api/weatherAPI", async (req, res) => {
     return res.status(400).json({ error: "missing city code in request body" });
   }
 
-  // add some logic for the memory caching here
-  
-  // ------------------------------------------
+  // setup redis
+  const client = createClient();
+  client.on("error", (err) => console.log("Redis Client Error", err));
+  await client.connect();
 
-  // try to fetch some example data
-  try {
-    const URL = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}?key=${apiKey}`;
-    const APIres = await axios.get(URL);
-    return res.json(APIres.data);
+  const cacheValue = await client.hGetAll(city);
+
+  console.log(Object.values(cacheValue).length);
+
+  // the object is not cached
+  if (Object.values(cacheValue).length === 0) {
+    console.log("cache is empty, we will fetch for the city information");
+    try {
+      const URL = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}?key=${apiKey}`;
+      const APIres = await axios.get(URL);
+
+      const currData = APIres.data.currentConditions;
+      console.log("current data", currData);
+
+      try {
+        await client.hSet(city, JSON.stringify(currData));
+      } 
+      catch (error) {
+        console.log("error in response 1", error)
+      }
+      
+      try {
+        const res2 = await client.hGetAll(city);
+        console.log("response 2: ", res2);
+      }
+      catch (error) {
+        console.log("error in response 2", error)
+      }
+
+      console.log("type of city: ",  typeof(city));
+      console.log("type of currData: ",  typeof(currData));
+      
+
+      // client.hGet(city, (err, reply) => {
+      //   if (err) {
+      //     console.error("error retrieving from redis");
+      //   }
+      //   else {
+      //     console.log("data retrieved from redis: ", reply);
+      //   }
+      // });
+
+      return res.json(APIres.data);
+
+      // client.hSet(city, JSON.stringify(APIres.data), "EX", 60, (err, reply) => {
+      //   if (err) {
+      //     console.error("error setting object in redis", err);
+      //   }
+      //   else {
+      //     console.log("stored in redis");
+      //   }
+      // });
+
+      // client.hGet(city, (err, reply) => {
+      //   if (err) {
+      //     console.error("errer getting object from redis", err);
+      //   }
+      //   if (reply) {
+      //     const cityData = JSON.parse(reply);
+      //     return res.json(cityData);
+      //   }
+      //   else {
+      //     console.log("City data not found or key expired");
+      //   }
+      // });
+    }
+    catch (err) {
+      console.error(err.message);
+      return res.status(500).json({ error: "failed to retrieve weather data" });
+    }
   }
-  catch (err) {
-    console.error(err.message);
-    return res.status(500).json({ error: "failed to retrieve weather data" });
+  // the object is cached
+  else {
+    // client.hGet(city, (err, reply) => {
+    //   if (err) {
+    //     console.error("error getting object from redis", err);
+    //   }
+    //   if (reply) {
+    //     const cityData = JSON.parse(reply);
+    //     return res.json(cityData);
+    //   }
+    //   else {
+    //     console.log("City data not found or key expired");
+    //   }
+    // });
   }
+
+  await client.disconnect();
 });
 
 app.listen(port, () => {
