@@ -13,7 +13,7 @@ const __dirname = dirname(__filename);
 // ------------ app  setup -------------
 const app = express();
 const port = process.env.PORT;
-const api_port = process/env.API_PORT;
+const api_port = process.env.API_PORT;
 app.use(express.static("public", {
   extensions: ["css", "js", "html"]
 }));
