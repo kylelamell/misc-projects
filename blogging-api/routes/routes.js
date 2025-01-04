@@ -1,5 +1,4 @@
 import { Router } from "express";
-import axios from "axios";
 import { config} from "dotenv";
 import { mongoConnect } from "../config/mongoConfig.js";
 
@@ -36,7 +35,9 @@ router.get("/posts", async (req, res) => {
     return res.status(400).json({ error: "there was an error retrieving all posts" });
   }
   finally {
-    await mongoClient.close();
+    if (mongoClient) {
+      await mongoClient.close();
+    }
   }
 });
 
@@ -65,7 +66,9 @@ router.get("/posts/:postId", async (req, res) => {
     return res.status(404).json({ error: "post not found" });
   }
   finally {
-    await mongoClient.close();
+    if (mongoClient) {
+      await mongoClient.close();
+    }
   }
 });
 
@@ -109,7 +112,9 @@ router.post("/posts", async (req, res) => {
     return res.status(400).json({ error: "there was an error in creating the post"});
   }
   finally {
-    await mongoClient.close();
+    if (mongoClient) {
+      await mongoClient.close();
+    }
   }
 });
 
@@ -162,7 +167,9 @@ router.put("/posts/:postId", async (req, res) => {
     return res.status(404).json({ error: "post not found" });
   }
   finally {
-    await mongoClient.close();
+    if (mongoCLient) {
+      await mongoClient.close();
+    }
   }
 });
 
@@ -173,6 +180,7 @@ router.delete("/posts/:postId", async (req, res) => {
     return res.status(400).json({ error: "no post specified in DELETE request" });
   }
 
+  let mongoClient;
   try {
     // try to delete the post
     return res.status(204).json({ data: "post succwessfully deleted"});
@@ -180,6 +188,11 @@ router.delete("/posts/:postId", async (req, res) => {
   catch (error) {
     console.log(error);
     return res.status(404).json ({ error: "post not found" })
+  }
+  finally {
+    if (mongoClient) {
+      await mongoClient.close();
+    }
   }
 });
 
