@@ -1,9 +1,11 @@
 import express, { json, urlencoded } from "express";
 import rateLimit from "express-rate-limit";
-import dotenv from "dotenv";
+import { config } from "dotenv";
 import { router } from "./routes/routes.js";
 
-dotenv.config();
+// setup enviornment variables
+config();
+const port = process.env.PORT;
 
 // setup rate limiter
 const limiter = rateLimit({
@@ -15,7 +17,6 @@ const limiter = rateLimit({
 });
 
 // app setup
-const port = process.env.PORT;
 const app = express();
 
 app.use(limiter);
