@@ -44,42 +44,72 @@ router.get("/posts/:postId", async (req, res) => {
   console.log("we made it to GET /posts/:postId");
 
   // test to see if request gave a post id, if not then just display all posts
-  const postId = req.params.postId;
-  if (!postId) {
-    return res.redirect("/posts");
-  }
+  const postId = parseInt(req.params.postId);
 
+  let mongoClient;
   try {
     // we try to retieve the post from mongodb
+    mongoClient = await mongoConnect(URI);
+
+    const db = mongoClient.db(blogDatabase);
+    const posts = db.collection(postCollection);
+
+    const result = await posts.findOne({ id: postId });
+
+    console.log(result);
+
+    return res.status(200).json({ data: result });
   }
   catch (error) {
     console.log(error);
     return res.status(404).json({ error: "post not found" });
   }
   finally {
-    await closeConnection();
+    await mongoClient.close();
   }
 });
 
 router.post("/posts", async (req, res) => {
   console.log("we made it to POST /posts");
 
-  const title = req.body.title;
-  const content = req.body.content;
-  const category = req.body.category;
-  const tags = req.body.tags;
+  const { title, content, category, tags } = req.body;
 
   if (!title || !content || !category || !tags) {
     return res.status(400).json({ error: "not enough arguments in request body" });
   }
 
+  let mongoClient;
   try {
     // try to create the post
-    return res.status(201).json({ data: postObject })
+    mongoClient = await mongoConnect(URI);
+
+    const db = mongoClient.db(blogDatabase);
+    const posts = db.collection(postCollection);
+
+    // get the largest id
+    const res1 = await posts.findOne({}, { sort: { id: -1 } });
+
+    const date = new Date().toLocaleDateString();
+    const postObject = {
+      id: parseInt(res1.id) + 1,
+      title: title,
+      content: content,
+      category: category,
+      tags: tags,
+      createdAt: date,
+      updatedAt: date
+    }
+
+    const res2 = await posts.insertOne(postObject);
+
+    return res.status(201).json({ data: postObject });
   }
   catch (error) {
     console.log(error);
     return res.status(400).json({ error: "there was an error in creating the post"});
+  }
+  finally {
+    await mongoClient.close();
   }
 });
 

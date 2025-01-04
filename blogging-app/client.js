@@ -7,8 +7,9 @@ const client = {
     try {
       const response = await axios.get(`${apiUrl}/posts`);
       return response.data;
-    } catch (error) {
-      console.error('Error fetching posts:', error);
+    } 
+    catch (error) {
+      console.error("Error fetching posts:", error);
       throw error;
     }
   },
@@ -17,13 +18,27 @@ const client = {
     try {
       const response = await axios.get(`${apiUrl}/posts/${postId}`);
       return response.data;
-    } catch (error) {
-      console.error('Error fetching post:', error);
+    } 
+    catch (error) {
+      console.error("Error fetching post:", error);
       throw error;
     }
   },
 
-  // Add methods for other API endpoints (POST, PUT, DELETE)
+  async createNewPost(postObject) {
+    try {
+      const response = await axios.post(`${apiUrl}/posts/`, {
+        title: postObject.title,
+        content: postObject.content,
+        category: postObject.category,
+        tags: postObject.tags
+      });
+      return response.data;
+    } catch (error) {
+      console.error("error creating post:", error);
+      throw error;
+    }
+  },
 };
 
 export default client;
