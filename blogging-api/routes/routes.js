@@ -114,14 +114,10 @@ router.post("/posts", async (req, res) => {
 });
 
 router.put("/posts/:postId", async (req, res) => {
-  console.log("we made it to PUT /posts/postId");
+  console.log("we made it to PUT /posts/:postId");
 
-  const postId = req.params.postId;
-
-  const title = req.body.title;
-  const content = req.body.content;
-  const category = req.body.category;
-  const tags = req.body.tags;
+  const postId = parseInt(req.params.postId);
+  const { title, content, category, tags } = req.body;
 
   if (!postId) {
     return res.status(400).json({ error: "no post specified in PUT request"});
@@ -131,22 +127,40 @@ router.put("/posts/:postId", async (req, res) => {
     return res.status(400).json({ error: "not enough arguments in request body" });
   }
 
+  let mongoClient;
   try {
     // try to update the post
-    const postObject = {
-      id: "post id",
-      title: title,
-      content: content,
-      category: category,
-      tags: tags,
-      createdAt: "creation date",
-      updatedAt: new Date().toLocaleDateString()
+    mongoClient = await mongoConnect(URI);
+
+    const db = mongoClient.db(blogDatabase);
+    const posts = db.collection(postCollection);    
+
+    const filter = { id: postId };
+    const options = { upset: true };
+    const date = new Date().toLocaleDateString();
+
+    const updateDoc = {
+      $set: {
+        title: title,
+        content: content,
+        category: category,
+        tags: tags,
+        updatedAt: date
+      }
     }
-    return res.status(200).json({ data: postObject });
+
+    const result = await posts.updateOne(filter, updateDoc, options);
+
+    console.log(result);
+
+    return res.status(200).json({ data: result });
   }
   catch (error) {
     console.log(error);
     return res.status(404).json({ error: "post not found" });
+  }
+  finally {
+    await mongoClient.close();
   }
 });
 

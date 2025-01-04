@@ -27,7 +27,7 @@ const client = {
 
   async createNewPost(postObject) {
     try {
-      const response = await axios.post(`${apiUrl}/posts/`, {
+      const response = await axios.post(`${apiUrl}/posts`, {
         title: postObject.title,
         content: postObject.content,
         category: postObject.category,
@@ -36,6 +36,22 @@ const client = {
       return response.data;
     } catch (error) {
       console.error("error creating post:", error);
+      throw error;
+    }
+  },
+
+  async updatePost(postObject) {
+    try {
+      const response = await axios.put(`${apiUrl}/posts/${postObject.id}`, {
+        title: postObject.title,
+        content: postObject.content,
+        category: postObject.category,
+        tags: postObject.tags
+      });
+      return response.data;
+    }
+    catch (error) {
+      console.error("error updating post:", error);
       throw error;
     }
   },
