@@ -167,14 +167,16 @@ router.put("/posts/:postId", async (req, res) => {
     return res.status(404).json({ error: "post not found" });
   }
   finally {
-    if (mongoCLient) {
+    if (mongoClient) {
       await mongoClient.close();
     }
   }
 });
 
 router.delete("/posts/:postId", async (req, res) => {
-  const postId = req.params.postId;
+  console.log("we made it to DELETE /posts/:postId");
+
+  const postId = parseInt(req.params.postId);
   
   if (!postId) {
     return res.status(400).json({ error: "no post specified in DELETE request" });
@@ -183,7 +185,15 @@ router.delete("/posts/:postId", async (req, res) => {
   let mongoClient;
   try {
     // try to delete the post
-    return res.status(204).json({ data: "post succwessfully deleted"});
+    mongoClient = await mongoConnect(URI);
+
+    const db = mongoClient.db(blogDatabase);
+    const posts = db.collection(postCollection);  
+
+    const result = await posts.deleteOne({ id: postId });
+    console.log(result);
+
+    return res.status(204).json({ data: "post deleted"});
   }
   catch (error) {
     console.log(error);

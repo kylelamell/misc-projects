@@ -19,12 +19,15 @@ async function main() {
     // console.dir(newPost.data);
 
     //update post
-    const updateId = 2;
-    const updatePostObject = { id: updateId, title: "title2 - updated", content: "content2 and more", category: "category2", tags: ["tag23", "tag34"] }
-    const updatedPost = await client.updatePost(updatePostObject);
-    console.log(updatedPost.data)
+    // const updateId = 2;
+    // const updatePostObject = { id: updateId, title: "title2 - updated", content: "content2 and more", category: "category2", tags: ["tag23", "tag34"] }
+    // const updatedPost = await client.updatePost(updatePostObject);
+    // console.log(updatedPost.data)
 
     // delete post
+    const deleteId = 4;
+    const deletePost = await client.deletePost(deleteId);
+    console.log(deletePost.data);
 
   } catch (error) {
     console.error('An error occurred:', error);

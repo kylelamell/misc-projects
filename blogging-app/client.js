@@ -55,6 +55,18 @@ const client = {
       throw error;
     }
   },
+
+  async deletePost(postId) {
+    try {
+      const response = await axios.delete(`${apiUrl}/posts/${postId}`);
+
+      return response.data;
+    }
+    catch (error) {
+      console.log("error deleting post:", error);
+      throw error;
+    }
+  }
 };
 
 export default client;
