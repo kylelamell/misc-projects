@@ -9,7 +9,7 @@ async function main() {
 
     // get post with id=1
     // const getId = 1;
-    // const post = await client.getPostById(i\getId);
+    // const post = await client.getPostById(getId);
     // console.log("post with id ", getId);
     // console.log(post.data);
 
@@ -18,11 +18,13 @@ async function main() {
     // const newPost = await client.createNewPost(newPostObject);
     // console.dir(newPost.data);
 
-    // update post
+    //update post
     const updateId = 2;
     const updatePostObject = { id: updateId, title: "title2 - updated", content: "content2 and more", category: "category2", tags: ["tag23", "tag34"] }
     const updatedPost = await client.updatePost(updatePostObject);
     console.log(updatedPost.data)
+
+    // delete post
 
   } catch (error) {
     console.error('An error occurred:', error);

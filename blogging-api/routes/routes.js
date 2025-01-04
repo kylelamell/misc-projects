@@ -149,11 +149,13 @@ router.put("/posts/:postId", async (req, res) => {
       }
     }
 
-    const result = await posts.updateOne(filter, updateDoc, options);
+    const res1 = await posts.updateOne(filter, updateDoc, options);
 
-    console.log(result);
+    const res2 = await posts.findOne({ id: postId });
 
-    return res.status(200).json({ data: result });
+    console.log(res2);
+
+    return res.status(200).json({ data: res2 });
   }
   catch (error) {
     console.log(error);
