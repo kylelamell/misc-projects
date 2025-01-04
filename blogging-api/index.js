@@ -1,4 +1,4 @@
-import express, { urlencoded } from "express";
+import express, { json, urlencoded } from "express";
 import rateLimit from "express-rate-limit";
 import dotenv from "dotenv";
 import { router } from "./routes/routes.js";
@@ -19,8 +19,8 @@ const port = process.env.PORT;
 const app = express();
 
 app.use(limiter);
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(json());
+app.use(urlencoded({ extended: true }));
 
 // mount the routes from our route file
 app.use("/", router);
