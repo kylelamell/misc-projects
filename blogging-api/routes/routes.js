@@ -2,6 +2,7 @@ import { Router } from "express";
 import { config} from "dotenv";
 import { mongoConnect } from "../config/mongoConfig.js";
 
+// get our enviornment variables
 config();
 const blogDatabase = process.env.MONGO_POST_DATABASE;
 const postCollection = process.env.MONGO_POST_COLLECTION;
@@ -9,13 +10,10 @@ const URI = process.env.MONGO_CONNECTION_STRING;
 
 const router = Router();
 router.get("/posts", async (req, res) => {
-  console.log("we made it to GET /posts");
-
   // term is optional so we can stay here
-  const term = req.query.term;
-  if (term) {
-    console.log(`included search term: ${term}`)
-  }
+  // implement in the future
+  // const term = req.query.term;
+
   let mongoClient;
   try {
     // we try to retrieve all the posts
@@ -25,8 +23,6 @@ router.get("/posts", async (req, res) => {
     const posts = db.collection(postCollection);
 
     const result = await posts.find({}).toArray();
-
-    console.log(result);
 
     return res.status(200).json({ data: result });
   }
@@ -42,10 +38,12 @@ router.get("/posts", async (req, res) => {
 });
 
 router.get("/posts/:postId", async (req, res) => {
-  console.log("we made it to GET /posts/:postId");
-
-  // test to see if request gave a post id, if not then just display all posts
+  // get the post id and return if not present
   const postId = parseInt(req.params.postId);
+
+  if (!postId) {
+    return res.status(400).json({ error: "no post specified in GET request" });
+  }
 
   let mongoClient;
   try {
@@ -73,12 +71,11 @@ router.get("/posts/:postId", async (req, res) => {
 });
 
 router.post("/posts", async (req, res) => {
-  console.log("we made it to POST /posts");
-
+  // get the post fields and return if we dont have enough
   const { title, content, category, tags } = req.body;
 
   if (!title || !content || !category || !tags) {
-    return res.status(400).json({ error: "not enough arguments in request body" });
+    return res.status(400).json({ error: "not enough arguments in POST request body" });
   }
 
   let mongoClient;
@@ -92,6 +89,7 @@ router.post("/posts", async (req, res) => {
     // get the largest id
     const res1 = await posts.findOne({}, { sort: { id: -1 } });
 
+    // create the new post
     const date = new Date().toLocaleDateString();
     const postObject = {
       id: parseInt(res1.id) + 1,
@@ -119,8 +117,7 @@ router.post("/posts", async (req, res) => {
 });
 
 router.put("/posts/:postId", async (req, res) => {
-  console.log("we made it to PUT /posts/:postId");
-
+  // get the post fields and return if we dont have enough
   const postId = parseInt(req.params.postId);
   const { title, content, category, tags } = req.body;
 
@@ -129,7 +126,7 @@ router.put("/posts/:postId", async (req, res) => {
   }
 
   if (!title || !content || !category || !tags) {
-    return res.status(400).json({ error: "not enough arguments in request body" });
+    return res.status(400).json({ error: "not enough arguments in PUT request body" });
   }
 
   let mongoClient;
@@ -140,10 +137,10 @@ router.put("/posts/:postId", async (req, res) => {
     const db = mongoClient.db(blogDatabase);
     const posts = db.collection(postCollection);    
 
+    // set up the update request
     const filter = { id: postId };
     const options = { upset: true };
     const date = new Date().toLocaleDateString();
-
     const updateDoc = {
       $set: {
         title: title,
@@ -174,8 +171,7 @@ router.put("/posts/:postId", async (req, res) => {
 });
 
 router.delete("/posts/:postId", async (req, res) => {
-  console.log("we made it to DELETE /posts/:postId");
-
+  // get the post id and return if not present
   const postId = parseInt(req.params.postId);
   
   if (!postId) {
@@ -191,13 +187,12 @@ router.delete("/posts/:postId", async (req, res) => {
     const posts = db.collection(postCollection);  
 
     const result = await posts.deleteOne({ id: postId });
-    console.log(result);
 
     return res.status(204).json({ data: "post deleted"});
   }
   catch (error) {
     console.log(error);
-    return res.status(404).json ({ error: "post not found" })
+    return res.status(404).json ({ error: "post not found" });
   }
   finally {
     if (mongoClient) {
